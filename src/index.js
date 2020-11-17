@@ -10,12 +10,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       input: "function myScript(){console.log('Hello');}",
-      options: {
-        theme: "monokai",
-        lineNumbers: true,
-        fixedGutter: false,
-        readOnly: false,
-      },
+      darkTheme: true,
+      readOnly: false,
     };
   }
 
@@ -24,26 +20,42 @@ class App extends React.Component {
   };
 
   handleChange = (event) => {
-    if (event.target.name === "changeTheme") {
-      const theme =
-        this.state.options.theme === "monokai" ? "eclipse" : "monokai";
-      this.setState({ options: { theme: theme } });
-    } else if (event.target.name === "toggleEdit") {
-      const readOnly =
-        this.state.options.readOnly === "nocursor" ? false : "nocursor";
-      this.setState({ options: { readOnly: readOnly } });
+    const state = this.state;
+
+    if (event.target.name === "darkTheme") {
+      this.setState({
+        darkTheme: !state.darkTheme,
+      });
+    } else if (event.target.name === "readOnly") {
+      this.setState({
+        readOnly: !state.readOnly,
+      });
     }
   };
 
   render() {
+    console.log(this.state);
+
+    const theme = this.state.darkTheme ? "monokai" : "eclipse";
+    const readOnly = this.state.readOnly ? "nocursor" : false;
+
     return (
       <>
         <Editor
           input={this.state.input}
-          options={this.state.options}
+          options={{
+            lineNumbers: true,
+            fixedGutter: false,
+            theme: theme,
+            readOnly: readOnly,
+          }}
           onBeforeChange={this.handleInputChange}
         />
-        <Toolbar handleChange={this.handleChange}></Toolbar>
+        <Toolbar
+          handleChange={this.handleChange}
+          darkTheme={this.state.darkTheme}
+          readOnly={this.state.readOnly}
+        ></Toolbar>
       </>
     );
   }

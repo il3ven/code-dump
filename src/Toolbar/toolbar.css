@@ -18,6 +18,5 @@
 }
 
 .toolbar button:focus {
-  /* border: 3px solid yellow; */
   outline: none;
 }
