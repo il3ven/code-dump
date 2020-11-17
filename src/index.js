@@ -36,14 +36,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         <Editor
           input={this.state.input}
           options={this.state.options}
           onBeforeChange={this.handleInputChange}
         />
         <Toolbar handleChange={this.handleChange}></Toolbar>
-      </div>
+      </>
     );
   }
 }
