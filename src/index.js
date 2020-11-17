@@ -13,7 +13,8 @@ class App extends React.Component {
       options: {
         theme: "monokai",
         lineNumbers: true,
-        readOnly: "nocursor",
+        fixedGutter: false,
+        readOnly: false,
       },
     };
   }

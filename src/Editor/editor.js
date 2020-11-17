@@ -8,16 +8,6 @@ import "codemirror/theme/eclipse.css";
 import "./editor.css";
 
 class Editor extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  handleButton = () => {
-    const theme =
-      this.state.options.theme === "monokai" ? "eclipse" : "monokai";
-    this.setState({ options: { theme: theme } });
-  };
-
   render() {
     return (
       <div>
