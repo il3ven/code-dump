@@ -3,7 +3,11 @@
   justify-content: flex-start;
   background-color: rgb(65, 59, 57);
   padding: 0 10px 0;
-  height: 3vh;
+  height: 20px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .toolbar button {
