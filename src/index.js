@@ -5,6 +5,31 @@ import Editor from "./Editor/editor";
 import Toolbar from "./Toolbar/toolbar";
 import reportWebVitals from "./reportWebVitals";
 
+class Form extends React.Component {
+  escFunction = (event) => {
+    if (event.keyCode === 27) {
+      this.props.handleSubmit(event);
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
+
+  render() {
+    return (
+      <form>
+        <input type="text" onesc></input>
+        <input type="submit" onClick={this.props.handleSubmit}></input>
+      </form>
+    );
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +37,7 @@ class App extends React.Component {
       input: "function myScript(){console.log('Hello');}",
       darkTheme: true,
       readOnly: false,
+      showInput: false,
     };
   }
 
@@ -29,8 +55,16 @@ class App extends React.Component {
     } else if (event.target.name === "readOnly") {
       this.setState({
         readOnly: !state.readOnly,
+        showInput: !state.showInput,
       });
     }
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState((state, props) => ({
+      showInput: !state.showInput,
+    }));
   };
 
   render() {
@@ -41,6 +75,11 @@ class App extends React.Component {
 
     return (
       <>
+        {this.state.showInput && (
+          <div className="form">
+            <Form handleSubmit={this.handleSubmit}></Form>
+          </div>
+        )}
         <Editor
           input={this.state.input}
           options={{
