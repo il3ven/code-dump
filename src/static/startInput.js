@@ -1,22 +1,44 @@
-import React from "react";
+// prettier-ignore
+const startInput = `import React from "react";
 import ReactDOM from "react-dom";
-
+import "./index.css";
 import Editor from "./Editor/editor";
 import Toolbar from "./Toolbar/toolbar";
-import Modal from "./Modal/modal";
-import { InputBar } from "./Input/input";
-
 import reportWebVitals from "./reportWebVitals";
 
-import codeMirrorLanguages from "./static/langauges.json";
-import startInput from "./static/startInput";
-import "./index.css";
+// prettier-ignore
+const startInput = ""
+
+class Form extends React.Component {
+  escFunction = (event) => {
+    if (event.keyCode === 27) {
+      this.props.handleSubmit(event);
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.escFunction, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
+
+  render() {
+    return (
+      <form>
+        <input type="text" onesc></input>
+        <input type="submit" onClick={this.props.handleSubmit}></input>
+      </form>
+    );
+  }
+}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: startInput,
+      input: "function myScript(){console.log('Hello');}",
       darkTheme: true,
       readOnly: false,
       showInput: false,
@@ -42,19 +64,11 @@ class App extends React.Component {
     }
   };
 
-  handleSubmit = (selectedIndex) => {
-    console.log(selectedIndex);
+  handleSubmit = (e) => {
+    e.preventDefault();
     this.setState((state, props) => ({
       showInput: !state.showInput,
     }));
-  };
-
-  handleModalClose = (event) => {
-    if (event.target.className === "modal") {
-      this.setState((state, props) => ({
-        showInput: !state.showInput,
-      }));
-    }
   };
 
   render() {
@@ -66,14 +80,9 @@ class App extends React.Component {
     return (
       <>
         {this.state.showInput && (
-          <Modal handleClose={this.handleModalClose}>
-            {/* <Form handleSubmit={this.handleSubmit}></Form> */}
-            {/* <InputDropdown handleSubmit={this.handleSubmit}></InputDropdown> */}
-            <InputBar
-              handleSubmit={this.handleSubmit}
-              options={codeMirrorLanguages}
-            ></InputBar>
-          </Modal>
+          <div className="form">
+            <Form handleSubmit={this.handleSubmit}></Form>
+          </div>
         )}
         <Toolbar
           handleChange={this.handleChange}
@@ -105,4 +114,6 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals();`
+
+export default startInput;

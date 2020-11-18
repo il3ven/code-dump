@@ -1,0 +1,40 @@
+.inputBar {
+  margin: 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 50%;
+  max-width: 25rem;
+}
+
+.inputBar input {
+  background-color: rgb(112, 112, 112);
+  color: white;
+  border: none;
+}
+
+.inputBar input::placeholder {
+  color: white;
+}
+
+.inputBar input:focus {
+  outline: none;
+}
+
+.options {
+  display: block;
+  width: 100%;
+  color: white;
+  text-align: center;
+  background-color: rgb(23, 23, 23);
+  padding: 3pt;
+  border: none;
+}
+
+.options:focus {
+  outline: none;
+}
+
+.selected {
+  /*This should be below .options class*/
+  background-color: rgb(66, 58, 58);
+}
