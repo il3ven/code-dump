@@ -5,10 +5,18 @@ class Toolbar extends React.Component {
   render() {
     return (
       <div className="toolbar">
-        <button name="darkTheme" onClick={this.props.handleChange}>
+        <button
+          className="toolbar-button"
+          name="darkTheme"
+          onClick={this.props.handleChange}
+        >
           {this.props.darkTheme ? "Light Mode" : "Dark Mode"}
         </button>
-        <button name="readOnly" onClick={this.props.handleChange}>
+        <button
+          className="toolbar-button"
+          name="readOnly"
+          onClick={this.props.handleChange}
+        >
           {this.props.readOnly ? "Edit" : "Save"}
         </button>
       </div>

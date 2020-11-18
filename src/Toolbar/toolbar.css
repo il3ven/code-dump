@@ -2,7 +2,7 @@
   display: flex;
   justify-content: flex-start;
   background-color: rgb(65, 59, 57);
-  padding: 0 10px 0;
+  padding: 0 5px 0;
   height: 20px;
   position: -webkit-sticky;
   position: sticky;
@@ -10,17 +10,17 @@
   z-index: 10;
 }
 
-.toolbar button {
+.toolbar .toolbar-button {
   color: white;
   border: none;
   background-color: inherit;
   margin: 0;
 }
 
-.toolbar button:hover {
+.toolbar .toolbar-button:hover {
   background-color: rgb(116, 107, 105);
 }
 
-.toolbar button:focus {
+.toolbar .toolbar-button:focus {
   outline: none;
 }

@@ -1,35 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+
 import Editor from "./Editor/editor";
 import Toolbar from "./Toolbar/toolbar";
+import Modal from "./Modal/modal";
+import { InputBar } from "./Input/input";
+
 import reportWebVitals from "./reportWebVitals";
-import startInput from "./startInput";
 
-class Form extends React.Component {
-  escFunction = (event) => {
-    if (event.keyCode === 27) {
-      this.props.handleSubmit(event);
-    }
-  };
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.escFunction, false);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.escFunction, false);
-  }
-
-  render() {
-    return (
-      <form>
-        <input type="text" onesc></input>
-        <input type="submit" onClick={this.props.handleSubmit}></input>
-      </form>
-    );
-  }
-}
+import codeMirrorLanguages from "./static/langauges.json";
+import startInput from "./static/startInput";
+import "./index.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -61,11 +42,19 @@ class App extends React.Component {
     }
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = (selectedIndex) => {
+    console.log(selectedIndex);
     this.setState((state, props) => ({
       showInput: !state.showInput,
     }));
+  };
+
+  handleModalClose = (event) => {
+    if (event.target.className === "modal") {
+      this.setState((state, props) => ({
+        showInput: !state.showInput,
+      }));
+    }
   };
 
   render() {
@@ -77,9 +66,14 @@ class App extends React.Component {
     return (
       <>
         {this.state.showInput && (
-          <div className="form">
-            <Form handleSubmit={this.handleSubmit}></Form>
-          </div>
+          <Modal handleClose={this.handleModalClose}>
+            {/* <Form handleSubmit={this.handleSubmit}></Form> */}
+            {/* <InputDropdown handleSubmit={this.handleSubmit}></InputDropdown> */}
+            <InputBar
+              handleSubmit={this.handleSubmit}
+              options={codeMirrorLanguages}
+            ></InputBar>
+          </Modal>
         )}
         <Toolbar
           handleChange={this.handleChange}

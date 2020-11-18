@@ -11,10 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.form {
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  z-index: 100;
-}

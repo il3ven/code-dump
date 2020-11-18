@@ -1,0 +1,5 @@
+[
+  { "key": "clike", "alias": "C/C++" },
+  { "key": "javascript", "alias": "Javascript" },
+  { "key": "python", "alias": "Python" }
+]
