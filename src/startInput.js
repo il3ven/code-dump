@@ -1,10 +1,13 @@
-import React from "react";
+// prettier-ignore
+const startInput = `import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import Editor from "./Editor/editor";
 import Toolbar from "./Toolbar/toolbar";
 import reportWebVitals from "./reportWebVitals";
-import startInput from "./startInput";
+
+// prettier-ignore
+const startInput = ""
 
 class Form extends React.Component {
   escFunction = (event) => {
@@ -35,7 +38,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: startInput,
+      input: "function myScript(){console.log('Hello');}",
       darkTheme: true,
       readOnly: false,
       showInput: false,
@@ -111,4 +114,6 @@ ReactDOM.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals();`
+
+export default startInput;
