@@ -22,8 +22,14 @@
 }
 
 .options {
+  height: calc(18pt * 4);
+  overflow: auto;
+}
+
+.optionsButton {
   display: block;
   width: 100%;
+  height: 18pt;
   color: white;
   text-align: center;
   background-color: rgb(23, 23, 23);
@@ -31,7 +37,7 @@
   border: none;
 }
 
-.options:focus {
+.optionsButton:focus {
   outline: none;
 }
 

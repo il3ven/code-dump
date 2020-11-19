@@ -54,7 +54,7 @@ class InputBar extends React.Component {
     };
   }
 
-  static max_options = 5;
+  static max_options = 50; // For experiment, using a very large value
 
   handleChange = (event) => {
     const userInput = event.target.value;
@@ -107,12 +107,12 @@ class InputBar extends React.Component {
           onKeyDown={this.handleKeyDown}
           autoFocus={true}
         ></input>
-        <div>
+        <div className={styles.options}>
           {this.state.filteredOptions.map((opt, index) => {
             const className =
               index !== this.state.selectedIndex
-                ? styles.options
-                : `${styles.options} ${styles.selected}`;
+                ? styles.optionsButton
+                : `${styles.optionsButton} ${styles.selected}`;
             return (
               <button
                 key={opt.key}
