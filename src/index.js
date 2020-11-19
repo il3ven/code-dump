@@ -20,6 +20,7 @@ class App extends React.Component {
       darkTheme: true,
       readOnly: false,
       showInput: false,
+      currentLanguage: codeMirrorLanguages[0],
     };
   }
 
@@ -37,15 +38,18 @@ class App extends React.Component {
     } else if (event.target.name === "readOnly") {
       this.setState({
         readOnly: !state.readOnly,
+      });
+    } else if (event.target.name === "language") {
+      this.setState({
         showInput: !state.showInput,
       });
     }
   };
 
-  handleSubmit = (selectedIndex) => {
-    console.log(selectedIndex);
+  handleLanguageSubmit = (selectedOption) => {
     this.setState((state, props) => ({
       showInput: !state.showInput,
+      currentLanguage: selectedOption,
     }));
   };
 
@@ -67,10 +71,8 @@ class App extends React.Component {
       <div className={styles.app}>
         {this.state.showInput && (
           <Modal handleClose={this.handleModalClose}>
-            {/* <Form handleSubmit={this.handleSubmit}></Form> */}
-            {/* <InputDropdown handleSubmit={this.handleSubmit}></InputDropdown> */}
             <InputBar
-              handleSubmit={this.handleSubmit}
+              handleSubmit={this.handleLanguageSubmit}
               options={codeMirrorLanguages}
             ></InputBar>
           </Modal>
@@ -79,6 +81,7 @@ class App extends React.Component {
           handleChange={this.handleChange}
           darkTheme={this.state.darkTheme}
           readOnly={this.state.readOnly}
+          currentLanguage={this.state.currentLanguage}
         ></Toolbar>
         <Editor
           input={this.state.input}

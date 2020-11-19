@@ -1,6 +1,6 @@
 [
-  { "key": "clike", "alias": "C/C++" },
   { "key": "javascript", "alias": "Javascript" },
+  { "key": "clike", "alias": "C/C++" },
   { "key": "python", "alias": "Python" },
   { "key": "go", "alias": "Go" },
   { "key": "markdown", "alias": "Markdown" },

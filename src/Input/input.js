@@ -52,7 +52,6 @@ class InputBar extends React.Component {
       selectedIndex: 0,
       filteredOptions: this.props.options.slice(0, InputBar.max_options),
     };
-    console.log(InputBar.max_options);
   }
 
   static max_options = 5;

@@ -19,6 +19,13 @@ class Toolbar extends React.Component {
         >
           {this.props.readOnly ? "Edit" : "Save"}
         </button>
+        <button
+          className={styles.toolbarButton}
+          name="language"
+          onClick={this.props.handleChange}
+        >
+          {this.props.currentLanguage.alias}
+        </button>
       </div>
     );
   }
