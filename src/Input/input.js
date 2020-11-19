@@ -70,9 +70,11 @@ class InputBar extends React.Component {
 
   handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      this.props.handleSubmit(
-        this.state.filteredOptions[this.state.selectedIndex]
-      );
+      if (this.state.filteredOptions.length !== 0) {
+        this.props.handleSubmit(
+          this.state.filteredOptions[this.state.selectedIndex]
+        );
+      }
     }
   };
 
