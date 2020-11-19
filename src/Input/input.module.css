@@ -8,6 +8,7 @@
 
 .inputBar input {
   background-color: rgb(112, 112, 112);
+  height: 20pt;
   color: white;
   border: none;
 }

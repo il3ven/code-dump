@@ -10,7 +10,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import codeMirrorLanguages from "./static/langauges.json";
 import startInput from "./static/startInput";
-import "./index.css";
+import styles from "./index.module.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class App extends React.Component {
     const readOnly = this.state.readOnly ? "nocursor" : false;
 
     return (
-      <>
+      <div className={styles.app}>
         {this.state.showInput && (
           <Modal handleClose={this.handleModalClose}>
             {/* <Form handleSubmit={this.handleSubmit}></Form> */}
@@ -90,7 +90,7 @@ class App extends React.Component {
           }}
           onBeforeChange={this.handleInputChange}
         />
-      </>
+      </div>
     );
   }
 }

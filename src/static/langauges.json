@@ -1,5 +1,9 @@
 [
   { "key": "clike", "alias": "C/C++" },
   { "key": "javascript", "alias": "Javascript" },
-  { "key": "python", "alias": "Python" }
+  { "key": "python", "alias": "Python" },
+  { "key": "go", "alias": "Go" },
+  { "key": "markdown", "alias": "Markdown" },
+  { "key": "ruby", "alias": "Ruby" },
+  { "key": "rust", "alias": "Rust"}
 ]

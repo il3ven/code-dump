@@ -1,5 +1,5 @@
 import React from "react";
-import "./input.css";
+import styles from "./input.module.css";
 
 class InputDropdown extends React.Component {
   escFunction = (event) => {
@@ -46,12 +46,16 @@ class InputDropdown extends React.Component {
 class InputBar extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       value: "",
       selectedIndex: 0,
-      filteredOptions: this.props.options,
+      filteredOptions: this.props.options.slice(0, InputBar.max_options),
     };
+    console.log(InputBar.max_options);
   }
+
+  static max_options = 5;
 
   handleChange = (event) => {
     const userInput = event.target.value;
@@ -61,13 +65,12 @@ class InputBar extends React.Component {
     this.setState({
       value: event.target.value,
       selectedIndex: 0,
-      filteredOptions: filteredOptions,
+      filteredOptions: filteredOptions.slice(0, InputBar.max_options),
     });
   };
 
   handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      console.log(this.state.selectedIndex);
       this.props.handleSubmit(
         this.state.filteredOptions[this.state.selectedIndex]
       );
@@ -93,11 +96,11 @@ class InputBar extends React.Component {
 
   render() {
     return (
-      <div className="inputBar">
+      <div className={styles.inputBar}>
         <input
           type="text"
           value={this.state.value}
-          placeholder="Enter..."
+          placeholder="Search..."
           onChange={this.handleChange}
           onKeyPress={this.handleKeyPress}
           onKeyDown={this.handleKeyDown}
@@ -107,8 +110,8 @@ class InputBar extends React.Component {
           {this.state.filteredOptions.map((opt, index) => {
             const className =
               index !== this.state.selectedIndex
-                ? "options"
-                : "options selected";
+                ? styles.options
+                : `${styles.options} ${styles.selected}`;
             return (
               <button
                 key={opt.key}
@@ -118,6 +121,11 @@ class InputBar extends React.Component {
                   this.props.handleSubmit(
                     this.state.filteredOptions[event.target.value]
                   );
+                }}
+                onMouseEnter={(event) => {
+                  this.setState({
+                    selectedIndex: parseInt(event.target.value),
+                  });
                 }}
               >
                 {opt.alias}

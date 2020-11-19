@@ -3,24 +3,26 @@
   justify-content: flex-start;
   background-color: rgb(65, 59, 57);
   padding: 0 5px 0;
-  height: 20px;
+  height: 20pt;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-.toolbar .toolbar-button {
+.toolbarButton {
+  composes: text from "../index.module.css";
   color: white;
   border: none;
   background-color: inherit;
   margin: 0;
+  padding: 0 8pt 0;
 }
 
-.toolbar .toolbar-button:hover {
+.toolbarButton:hover {
   background-color: rgb(116, 107, 105);
 }
 
-.toolbar .toolbar-button:focus {
+.toolbarButton:focus {
   outline: none;
 }

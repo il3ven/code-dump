@@ -1,19 +1,19 @@
 import React from "react";
-import "./toolbar.css";
+import styles from "./toolbar.module.css";
 
 class Toolbar extends React.Component {
   render() {
     return (
-      <div className="toolbar">
+      <div className={styles.toolbar}>
         <button
-          className="toolbar-button"
+          className={styles.toolbarButton}
           name="darkTheme"
           onClick={this.props.handleChange}
         >
           {this.props.darkTheme ? "Light Mode" : "Dark Mode"}
         </button>
         <button
-          className="toolbar-button"
+          className={styles.toolbarButton}
           name="readOnly"
           onClick={this.props.handleChange}
         >
