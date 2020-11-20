@@ -1,102 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-import Editor from "./Editor/editor";
-import Toolbar from "./Toolbar/toolbar";
-import Modal from "./Modal/modal";
-import { InputBar } from "./Input/input";
+import Editor from "./components/editor";
+import Toolbar from "./components/toolbar";
 
 import reportWebVitals from "./reportWebVitals";
 
 import codeMirrorLanguages from "./static/langauges.json";
 import startInput from "./static/startInput";
-import styles from "./index.module.css";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      input: startInput,
-      darkTheme: true,
-      readOnly: false,
-      showInput: false,
-      currentLanguage: codeMirrorLanguages[0],
-    };
-  }
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "./components/globalStyles";
+import { themes, codeMirrorThemes } from "./components/themes";
+import { useDarkMode } from "./components/useDarkMode";
 
-  handleInputChange = (newInput) => {
-    this.setState({ input: newInput });
+const getTheme = (themeKey) =>
+  codeMirrorThemes.find((elm) => elm.key === themeKey);
+
+const App = () => {
+  const [input, setInput] = useState(startInput);
+  const [readOnly, setReadOnly] = useState(false);
+  const [themeKey, themeSetter] = useDarkMode();
+  const [currentLanguage, setCurrentLanguage] = useState(
+    codeMirrorLanguages[0]
+  );
+
+  const handleInputChange = (newInput) => {
+    setInput(newInput);
   };
 
-  handleChange = (event) => {
-    const state = this.state;
-
-    if (event.target.name === "darkTheme") {
-      this.setState({
-        darkTheme: !state.darkTheme,
-      });
-    } else if (event.target.name === "readOnly") {
-      this.setState({
-        readOnly: !state.readOnly,
-      });
-    } else if (event.target.name === "language") {
-      this.setState({
-        showInput: !state.showInput,
-      });
+  const handleChange = (event) => {
+    if (event.target.name === "readOnly") {
+      setReadOnly(!readOnly);
     }
   };
 
-  handleLanguageSubmit = (selectedOption) => {
-    this.setState((state, props) => ({
-      showInput: !state.showInput,
-      currentLanguage: selectedOption,
-    }));
+  const handleLanguageSubmit = (selectedOption) => {
+    setCurrentLanguage(selectedOption);
   };
 
-  handleModalClose = (event) => {
-    if (event.target.className === "modal") {
-      this.setState((state, props) => ({
-        showInput: !state.showInput,
-      }));
-    }
-  };
+  // console.log(getTheme(themeKey));
+  const _readOnly = readOnly ? "nocursor" : false;
 
-  render() {
-    // console.log(this.state);
-
-    const theme = this.state.darkTheme ? "monokai" : "eclipse";
-    const readOnly = this.state.readOnly ? "nocursor" : false;
-
-    return (
-      <div className={styles.app}>
-        {this.state.showInput && (
-          <Modal handleClose={this.handleModalClose}>
-            <InputBar
-              handleSubmit={this.handleLanguageSubmit}
-              options={codeMirrorLanguages}
-            ></InputBar>
-          </Modal>
-        )}
-        <Toolbar
-          handleChange={this.handleChange}
-          darkTheme={this.state.darkTheme}
-          readOnly={this.state.readOnly}
-          currentLanguage={this.state.currentLanguage}
-        ></Toolbar>
-        <Editor
-          input={this.state.input}
-          options={{
-            lineNumbers: true,
-            fixedGutter: false,
-            theme: theme,
-            readOnly: readOnly,
-          }}
-          onBeforeChange={this.handleInputChange}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <ThemeProvider theme={themes[themeKey]}>
+      <GlobalStyles />
+      <Toolbar
+        handleChange={handleChange}
+        text={{
+          theme: getTheme(themeKey).alias,
+          language: currentLanguage.alias,
+        }}
+        readOnly={_readOnly}
+        themeSetter={themeSetter}
+        handleLanguageSubmit={handleLanguageSubmit}
+      ></Toolbar>
+      <Editor
+        input={input}
+        options={{
+          lineNumbers: true,
+          fixedGutter: false,
+          theme: themeKey,
+          readOnly: _readOnly,
+        }}
+        onBeforeChange={handleInputChange}
+      />
+    </ThemeProvider>
+  );
+};
 
 ReactDOM.render(
   <React.StrictMode>

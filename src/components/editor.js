@@ -5,7 +5,6 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/theme/monokai.css";
 import "codemirror/theme/elegant.css";
 import "codemirror/theme/eclipse.css";
-import "./editor.css";
 
 class Editor extends React.Component {
   render() {
