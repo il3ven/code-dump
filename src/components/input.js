@@ -55,6 +55,7 @@ const InputBarStyled = styled.div`
     height: 20pt;
     color: white;
     border: none;
+    padding: 0 5pt 0;
   }
 
   input::placeholder {
@@ -68,7 +69,7 @@ const InputBarStyled = styled.div`
 
 const OptionsDiv = styled.div`
    {
-    height: calc(18pt * 4);
+    height: calc(18pt * 6);
     overflow: auto;
   }
 `;

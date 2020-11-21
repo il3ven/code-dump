@@ -95,6 +95,7 @@ const App = () => {
           theme: themeKey,
           readOnly: _readOnly,
           mode: currentLanguage.key,
+          viewportMargin: 500,
         }}
         onBeforeChange={handleInputChange}
       />

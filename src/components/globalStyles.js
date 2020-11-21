@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
-const scrollbarBG = "rgba(0, 0, 0, 0)";
-const thumbBG = "rgba(0, 166, 255, 0.4)";
+// const scrollBarBG = "rgba(0, 0, 0, 0)";
+// const thumbBG = "rgba(0, 166, 255, 0.4)";
 const fontFamily = `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
       "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
       sans-serif;`;
@@ -18,7 +18,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .CodeMirror {
-    height: auto;
+    height: calc(100vh - 20pt);
   }
   
 
@@ -27,22 +27,29 @@ const GlobalStyles = createGlobalStyle`
   }
 
   *::-webkit-scrollbar {
-    width: 11px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler{
+    background: ${({ theme }) => theme.scrollBarBG};
+    // border: 3px solid red;
   }
   
   * {
     scrollbar-width: thin;
-    scrollbar-color: ${thumbBG} ${scrollbarBG};
+    scrollbar-color: ${({ theme }) => theme.thumbBG} ${({ theme }) =>
+  theme.scrollBarBG};
   }
   
   *::-webkit-scrollbar-track {
-    background: ${scrollbarBG};
+    background: ${({ theme }) => theme.scrollBarBG};
   }
   
   *::-webkit-scrollbar-thumb {
-    background-color: ${thumbBG};
+    background-color: ${({ theme }) => theme.thumbBG};
     /* border-radius: 6px; */
-    border: 3px solid ${scrollbarBG};
+    border: 3px solid ${({ theme }) => theme.scrollBarBG};
   }
 `;
 
