@@ -6,8 +6,9 @@ const ModalDiv = styled.div`
   width: 100%;
   height: 100%;
   left: 50%;
-  transform: translate(-50%, 0%);
-  z-index: 10;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  // z-index: 100;
 `;
 
 class Modal extends React.Component {
