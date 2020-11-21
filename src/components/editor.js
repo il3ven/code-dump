@@ -1,6 +1,7 @@
 import React from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
-import "codemirror/mode/javascript/javascript";
+// import "codemirror/mode/javascript/javascript";
+// import "codemirror/mode/python/python";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/monokai.css";
 import "codemirror/theme/elegant.css";

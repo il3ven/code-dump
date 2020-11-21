@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { codeMirrorThemes } from "./themes";
 
 export const useDarkMode = () => {
-  const [theme, setTheme] = useState(codeMirrorThemes[0].key);
+  const [theme, setTheme] = useState(
+    window.localStorage.getItem("theme") || codeMirrorThemes[0].key
+  );
 
   const setMode = (mode) => {
     window.localStorage.setItem("theme", mode);

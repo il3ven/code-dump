@@ -17,13 +17,29 @@ import { useDarkMode } from "./components/useDarkMode";
 const getTheme = (themeKey) =>
   codeMirrorThemes.find((elm) => elm.key === themeKey);
 
+const getLang = (langKey) =>
+  codeMirrorLanguages.find((elm) => elm.key === langKey);
+
+const mockGetData = () => {
+  return new Promise((resolve, reject) => {
+    const data = {
+      langauge: "javascript",
+      code: startInput,
+    };
+    setTimeout(() => {
+      resolve(data);
+    }, 500);
+  });
+};
+
 const App = () => {
-  const [input, setInput] = useState(startInput);
+  const [input, setInput] = useState("Fetching Code...");
   const [readOnly, setReadOnly] = useState(false);
   const [themeKey, themeSetter] = useDarkMode();
-  const [currentLanguage, setCurrentLanguage] = useState(
-    codeMirrorLanguages[0]
-  );
+  const [currentLanguage, setCurrentLanguage] = useState({
+    key: null,
+    alias: null,
+  });
 
   const handleInputChange = (newInput) => {
     setInput(newInput);
@@ -35,11 +51,27 @@ const App = () => {
     }
   };
 
-  const handleLanguageSubmit = (selectedOption) => {
+  const handleLanguageSubmit = async (selectedOption) => {
+    await import(
+      `codemirror/mode/${selectedOption.key}/${selectedOption.key}.js`
+    );
     setCurrentLanguage(selectedOption);
   };
 
-  // console.log(getTheme(themeKey));
+  // import(`codemirror/mode/${currentLanguage.key}/${currentLanguage.key}.js`);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await mockGetData();
+      const lang = getLang(data.langauge);
+      await import(`codemirror/mode/${lang.key}/${lang.key}.js`);
+      setInput(data.code);
+      setCurrentLanguage(lang);
+    };
+
+    fetchData();
+  }, []);
+
   const _readOnly = readOnly ? "nocursor" : false;
 
   return (
@@ -62,6 +94,7 @@ const App = () => {
           fixedGutter: false,
           theme: themeKey,
           readOnly: _readOnly,
+          mode: currentLanguage.key,
         }}
         onBeforeChange={handleInputChange}
       />
