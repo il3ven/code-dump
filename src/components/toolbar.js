@@ -41,7 +41,11 @@ class Toolbar extends React.Component {
           {text.language}
         </ToolbarButtonWithModal>
 
-        <ToolbarButton>Clipboard Access</ToolbarButton>
+        <ToolbarButton onClick={this.props.handleClipboard}>
+          {this.props.clipboardState === "granted"
+            ? "Paste & Replace"
+            : "Clipboard Access"}
+        </ToolbarButton>
       </StyledToolbar>
     );
   }

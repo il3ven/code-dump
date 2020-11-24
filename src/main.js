@@ -7,6 +7,8 @@ import Toolbar from "./components/toolbar";
 import codeMirrorLanguages from "./static/langauges.json";
 import startInput from "./static/startInput";
 import { codeMirrorThemes } from "./components/themes";
+import { useClipboardState } from "./components/useClipboardState";
+import { checkClipPermission } from "./utils";
 
 const getTheme = (themeKey) =>
   codeMirrorThemes.find((elm) => elm.key === themeKey);
@@ -28,6 +30,7 @@ const mockGetData = () => {
 };
 
 const Main = (props) => {
+  const [clipboardState, setClipboardState] = useClipboardState();
   const [input, setInput] = useState("Fetching Code...");
   const [readOnly, setReadOnly] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState({
@@ -53,6 +56,17 @@ const Main = (props) => {
     setCurrentLanguage(selectedOption);
   };
 
+  const handleClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setInput(text);
+    } catch (err) {
+      setInput(err.toString());
+    } finally {
+      setClipboardState();
+    }
+  };
+
   useEffect(() => {
     const handleGetState = async () => {
       const data = await mockGetData();
@@ -65,12 +79,18 @@ const Main = (props) => {
     const handleSaveState = async () => {
       let text;
       try {
-        text = await navigator.clipboard.readText();
+        const state = (await checkClipPermission()).state;
+        if (state === "granted") {
+          text = await navigator.clipboard.readText();
+          // history.replace(`/get/Abh1Bhs2`);
+        } else {
+          text = "Grant Access";
+        }
       } catch (err) {
+        text = err.toString();
       } finally {
         setInput(text);
       }
-      // history.replace(`/get/Abh1Bhs2`);
     };
 
     if (props.state === "get") {
@@ -93,6 +113,8 @@ const Main = (props) => {
         readOnly={_readOnly}
         themeSetter={props.themeSetter}
         handleLanguageSubmit={handleLanguageSubmit}
+        clipboardState={clipboardState}
+        handleClipboard={handleClipboard}
       ></Toolbar>
       <Editor
         input={input}
