@@ -18,7 +18,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .CodeMirror {
-    height: calc(100vh - 20pt);
+    // height: calc(100vh - 20pt);
+    height: auto;
   }
   
 

@@ -68,10 +68,8 @@ const InputBarStyled = styled.div`
 `;
 
 const OptionsDiv = styled.div`
-   {
-    height: calc(18pt * 6);
-    overflow: auto;
-  }
+  max-height: calc(18pt * 6);
+  overflow: auto;
 `;
 
 const Button = styled.button`
