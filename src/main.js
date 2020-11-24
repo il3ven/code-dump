@@ -63,9 +63,14 @@ const Main = (props) => {
     };
 
     const handleSaveState = async () => {
-      const text = await navigator.clipboard.readText();
-      setInput(text);
-      history.replace(`/get/Abh1Bhs2`);
+      let text;
+      try {
+        text = await navigator.clipboard.readText();
+      } catch (err) {
+      } finally {
+        setInput(text);
+      }
+      // history.replace(`/get/Abh1Bhs2`);
     };
 
     if (props.state === "get") {

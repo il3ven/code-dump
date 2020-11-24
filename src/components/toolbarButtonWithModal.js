@@ -13,9 +13,7 @@ class ToolbarButtonWithModal extends React.Component {
   };
 
   closeModal = (event) => {
-    if (event.target.id === "modal") {
-      this.setState({ showModal: false });
-    }
+    this.setState({ showModal: false });
   };
 
   render() {

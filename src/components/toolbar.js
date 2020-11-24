@@ -42,6 +42,8 @@ class Toolbar extends React.Component {
         >
           {text.language}
         </ToolbarButtonWithModal>
+
+        <ToolbarButton>Clipboard Access</ToolbarButton>
       </StyledToolbar>
     );
   }

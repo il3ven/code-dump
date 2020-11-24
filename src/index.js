@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
@@ -9,16 +9,20 @@ import { GlobalStyles } from "./components/globalStyles";
 import { themes } from "./components/themes";
 import { useDarkMode } from "./components/useDarkMode";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Welcome from "./components/welcome";
 
 const App = (props) => {
   const [themeKey, themeSetter] = useDarkMode();
+  const [firstVisit, setFirstVisit] = useState(true);
 
   return (
     <ThemeProvider theme={themes[themeKey]}>
       <GlobalStyles />
+
       <Router>
         <Switch>
           <Route exact path="/">
+            {firstVisit && <Welcome />}
             <Main state="save" themeKey={themeKey} themeSetter={themeSetter} />
           </Route>
           <Route path="/get/:id">

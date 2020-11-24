@@ -35,6 +35,10 @@ const themes = {
     background: "#999",
     thumbBG: "#ffffff66",
     scrollBarBG: "rgba(0, 0, 0, 0)",
+    welcome: {
+      bg: "#a3a3a347",
+      heading: "#e6db74",
+    },
   },
 
   eclipse: {
@@ -43,6 +47,10 @@ const themes = {
     background: "#363537",
     thumbBG: "rgba(0, 0, 0, 0.28)",
     scrollBarBG: "rgba(0, 0, 0, 0)",
+    welcome: {
+      bg: "#a3a3a347",
+      heading: "#219",
+    },
   },
 };
 
