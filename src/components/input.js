@@ -47,8 +47,8 @@ const InputBarStyled = styled.div`
   margin: 0 auto;
   display: flex;
   flex-flow: column nowrap;
-  width: 50%;
-  max-width: 25rem;
+  width: 25rem;
+  max-width: 100%;
 
   input {
     background-color: rgb(112, 112, 112);

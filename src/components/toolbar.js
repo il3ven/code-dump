@@ -6,17 +6,15 @@ import { codeMirrorThemes } from "./themes";
 import codeMirrorLanguages from "../static/langauges.json";
 
 const StyledToolbar = styled.div`
-   {
-    display: flex;
-    justify-content: flex-start;
-    background-color: rgb(65, 59, 57);
-    padding: 0 5px 0;
-    height: 20pt;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  background-color: rgb(65, 59, 57);
+  padding: 0 5px 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 `;
 
 class Toolbar extends React.Component {

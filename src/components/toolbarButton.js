@@ -6,7 +6,8 @@ const ToolbarButton = styled.button`
     border: none;
     background-color: inherit;
     margin: 0;
-    padding: 0 8pt 0;
+    padding: 3pt 8pt 2pt;
+    // height: 20pt;
   }
 
   &:hover {
