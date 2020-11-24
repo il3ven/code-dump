@@ -18,7 +18,6 @@ class Modal extends React.Component {
     }
   };
   render() {
-    console.log("Modal", this.props.handleClose);
     return (
       <ModalDiv id="modal" onClick={this.onClick}>
         {this.props.children}

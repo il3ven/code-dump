@@ -28,6 +28,7 @@ const HeadingDiv = styled.div`
 
 const Text = styled.p`
   margin: 1pt;
+  font-size: 11pt;
 `;
 
 const Close = styled.button``;
