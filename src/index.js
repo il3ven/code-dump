@@ -9,6 +9,7 @@ import { GlobalStyles } from "./components/globalStyles";
 import { themes } from "./components/themes";
 import { useDarkMode } from "./components/useDarkMode";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { UnmountClosed } from "react-collapse";
 import Welcome from "./components/welcome";
 
 const App = (props) => {
@@ -22,7 +23,13 @@ const App = (props) => {
       <Router>
         <Switch>
           <Route exact path="/">
-            {firstVisit && <Welcome />}
+            <UnmountClosed isOpened={firstVisit}>
+              <Welcome
+                onClose={() => {
+                  setFirstVisit(false);
+                }}
+              />
+            </UnmountClosed>
             <Main state="save" themeKey={themeKey} themeSetter={themeSetter} />
           </Route>
           <Route path="/get/:id">

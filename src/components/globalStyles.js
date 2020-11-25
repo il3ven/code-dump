@@ -22,6 +22,9 @@ const GlobalStyles = createGlobalStyle`
     height: auto;
   }
   
+  .ReactCollapse--collapse {
+    transition: height 500ms;
+  }
 
   button {
     font-family: ${fontFamily}

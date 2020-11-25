@@ -34,24 +34,12 @@ const Text = styled.p`
 const Close = styled.button``;
 
 class Welcome extends React.Component {
-  state = {
-    show: true,
-  };
-
   render() {
-    if (!this.state.show) return <></>;
-
     return (
       <Div>
         <HeadingDiv>
           <H1>Welcome! Share code as fast as possible.</H1>
-          <Close
-            onClick={() => {
-              this.setState({ show: false });
-            }}
-          >
-            Close
-          </Close>
+          <Close onClick={this.props.onClose}>Close</Close>
         </HeadingDiv>
         <H2>To unlock true speed, we request your clipboard access.</H2>
         <Text>
