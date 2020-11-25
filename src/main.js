@@ -9,6 +9,7 @@ import startInput from "./static/startInput";
 import { codeMirrorThemes } from "./components/themes";
 import { useClipboardState } from "./components/useClipboardState";
 import { checkClipPermission } from "./utils";
+import { postDump } from "./api";
 
 const getTheme = (themeKey) =>
   codeMirrorThemes.find((elm) => elm.key === themeKey);
@@ -90,6 +91,8 @@ const Main = (props) => {
         text = err.toString();
       } finally {
         setInput(text);
+        const ret = await postDump(text);
+        console.log(ret);
       }
     };
 
