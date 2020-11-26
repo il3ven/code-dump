@@ -1,9 +1,20 @@
 import axios from "axios";
 
-const postDump = (content) => {
-  return axios.post("https://ovpce.sse.codesandbox.io/create", {
-    content: content,
-  });
+const postDump = (code, langKey) => {
+  const data = { code: code };
+  if (langKey) data.langKey = langKey;
+
+  return axios.post("http://127.0.0.1:8080/create", data);
 };
 
-export { postDump };
+/* 
+  {
+    code: string
+    language: language_key
+  }
+*/
+const getDump = (id) => {
+  return axios.get(`http://127.0.0.1:8080/read/${id}`);
+};
+
+export { postDump, getDump };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 import Editor from "./components/editor";
 import Toolbar from "./components/toolbar";
@@ -9,7 +9,7 @@ import startInput from "./static/startInput";
 import { codeMirrorThemes } from "./components/themes";
 import { useClipboardState } from "./components/useClipboardState";
 import { checkClipPermission } from "./utils";
-import { postDump } from "./api";
+import { postDump, getDump } from "./api";
 
 const getTheme = (themeKey) =>
   codeMirrorThemes.find((elm) => elm.key === themeKey);
@@ -39,6 +39,8 @@ const Main = (props) => {
     alias: "Plain Text",
   });
   const history = useHistory();
+  const match = useRouteMatch("/get/:id");
+  console.log(match);
 
   const handleInputChange = (newInput) => {
     setInput(newInput);
@@ -70,10 +72,12 @@ const Main = (props) => {
 
   useEffect(() => {
     const handleGetState = async () => {
-      const data = await mockGetData();
-      const lang = getLang(data.langauge);
+      // const data = await mockGetData();
+      const res = await getDump(match.params.id);
+      console.log(res.data);
+      const lang = getLang(res.data.langauge);
       await import(`codemirror/mode/${lang.key}/${lang.key}.js`);
-      setInput(data.code);
+      setInput(res.data.code);
       setCurrentLanguage(lang);
     };
 
