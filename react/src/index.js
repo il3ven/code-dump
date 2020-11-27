@@ -19,25 +19,31 @@ library.add(faCaretRight);
 const App = (props) => {
   const [themeKey, themeSetter] = useDarkMode();
   const [firstVisit, setFirstVisit] = useState(true);
+  const WelcomeComponent = (
+    <UnmountClosed isOpened={firstVisit}>
+      <Welcome
+        onClose={() => {
+          setFirstVisit(false);
+        }}
+      />
+    </UnmountClosed>
+  );
 
   return (
     <ThemeProvider theme={themes[themeKey]}>
       <GlobalStyles />
+      {WelcomeComponent}
 
       <Router>
         <Switch>
           <Route exact path="/">
-            <UnmountClosed isOpened={firstVisit}>
-              <Welcome
-                onClose={() => {
-                  setFirstVisit(false);
-                }}
-              />
-            </UnmountClosed>
-            <Main state="save" themeKey={themeKey} themeSetter={themeSetter} />
+            <Main themeKey={themeKey} themeSetter={themeSetter} />
           </Route>
-          <Route path="/get/:id">
-            <Main state="get" themeKey={themeKey} themeSetter={themeSetter} />
+          <Route exact path="/:langExt">
+            <Main themeKey={themeKey} themeSetter={themeSetter} />
+          </Route>
+          <Route exact path="/:langExt/:id">
+            <Main themeKey={themeKey} themeSetter={themeSetter} />
           </Route>
         </Switch>
       </Router>

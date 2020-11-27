@@ -1,9 +1,10 @@
 [
-  { "key": "javascript", "alias": "Javascript" },
-  { "key": "clike", "alias": "C/C++" },
-  { "key": "python", "alias": "Python" },
-  { "key": "go", "alias": "Go" },
-  { "key": "markdown", "alias": "Markdown" },
-  { "key": "ruby", "alias": "Ruby" },
-  { "key": "rust", "alias": "Rust"}
+  { "key": "null", "alias": "Plain Text", "ext": ["txt"] },
+  { "key": "javascript", "alias": "Javascript", "ext": ["js"] },
+  { "key": "clike", "alias": "C/C++", "ext": ["cpp", "c"] },
+  { "key": "python", "alias": "Python", "ext": ["py"] },
+  { "key": "go", "alias": "Go", "ext": ["go"] },
+  { "key": "markdown", "alias": "Markdown", "ext": ["md"] },
+  { "key": "ruby", "alias": "Ruby", "ext": ["rby"] },
+  { "key": "rust", "alias": "Rust", "ext": ["rst"] }
 ]

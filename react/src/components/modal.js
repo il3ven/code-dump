@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const ModalDiv = styled.div`
   position: absolute; // Changed from fix to align modal with toolbar
-  width: 100%;
+  width: 98vw;
   height: 100vh;
   // left: 50%;
   // top: 50%;
