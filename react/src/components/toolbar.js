@@ -18,6 +18,16 @@ const StyledToolbar = styled.div`
 `;
 
 class Toolbar extends React.Component {
+  decodeClipboardState(state) {
+    if (this.props.clipboardState === "granted") {
+      return "Paste & Replace";
+    } else if (this.props.clipboardState === "prompt") {
+      return "Grant Clipboard Access";
+    } else {
+      return "Clipboard Blocked";
+    }
+  }
+
   render() {
     const text = this.props.text;
 
@@ -42,9 +52,7 @@ class Toolbar extends React.Component {
         </ToolbarButtonWithModal>
 
         <ToolbarButton onClick={this.props.handleClipboard}>
-          {this.props.clipboardState === "granted"
-            ? "Paste & Replace"
-            : "Clipboard Access"}
+          {this.decodeClipboardState(this.props.clipboardState)}
         </ToolbarButton>
       </StyledToolbar>
     );

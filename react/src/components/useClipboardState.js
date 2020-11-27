@@ -5,7 +5,15 @@ export const useClipboardState = () => {
   const [clipboardState, _setClipboardState] = useState("prompt");
 
   useEffect(() => {
-    setClipboardState();
+    const func = async () => {
+      const status = await checkClipPermission();
+      status.onchange = function () {
+        _setClipboardState(this.state);
+      };
+      setClipboardState();
+    };
+
+    func();
   }, []);
 
   const setClipboardState = async () => {

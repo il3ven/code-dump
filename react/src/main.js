@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams, useRouteMatch } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import Editor from "./components/editor";
 import Toolbar from "./components/toolbar";
@@ -48,18 +48,20 @@ const Main = (props) => {
   };
 
   const handleLanguageSubmit = async (selectedOption) => {
-    await import(
-      `codemirror/mode/${selectedOption.key}/${selectedOption.key}.js`
-    );
+    if (selectedOption.key !== "null") {
+      await import(
+        `codemirror/mode/${selectedOption.key}/${selectedOption.key}.js`
+      );
+    }
     setCurrentLanguage(selectedOption);
   };
 
   const handleClipboard = async () => {
     try {
       const text = await navigator.clipboard.readText();
-      setInput(text);
+      if (text) setInput(text);
     } catch (err) {
-      setInput(err.toString());
+      // setInput(err.toString());
     } finally {
       setClipboardState();
     }
@@ -80,7 +82,8 @@ const Main = (props) => {
           const ret = await postDump(text);
           console.log(ret);
           setInput(text);
-          history.push(`/${langExt}/${ret.id}`);
+          const newUrl = langExt ? `/${langExt}/${ret.id}` : `/txt/${ret.id}`;
+          history.push(newUrl);
         }
       } catch (err) {
         setInput(err.toString());
@@ -88,6 +91,7 @@ const Main = (props) => {
     };
 
     const lang = getLangFromExt(langExt);
+    console.log(langExt, id);
     if (lang) {
       handleLanguageSubmit(lang);
     } else {
