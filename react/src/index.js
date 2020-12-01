@@ -19,31 +19,48 @@ library.add(faCaretRight);
 const App = (props) => {
   const [themeKey, themeSetter] = useDarkMode();
   const [firstVisit, setFirstVisit] = useState(true);
-  const WelcomeComponent = (
+  const [featureOpen, setFeatureOpen] = useState(false);
+
+  const handleTips = () => {
+    setFirstVisit(true);
+    setFeatureOpen(true);
+  };
+
+  const _Welcome = (
     <UnmountClosed isOpened={firstVisit}>
       <Welcome
         onClose={() => {
           setFirstVisit(false);
         }}
+        featureOpen={featureOpen}
+        setFeatureOpen={setFeatureOpen}
       />
     </UnmountClosed>
+  );
+
+  const _Main = (
+    <Main
+      themeKey={themeKey}
+      themeSetter={themeSetter}
+      handleTips={handleTips}
+    />
   );
 
   return (
     <ThemeProvider theme={themes[themeKey]}>
       <GlobalStyles />
-      {WelcomeComponent}
+      {_Welcome}
 
       <Router>
         <Switch>
           <Route exact path="/">
-            <Main themeKey={themeKey} themeSetter={themeSetter} />
+            {_Main}
           </Route>
           <Route exact path="/:langExt">
-            <Main themeKey={themeKey} themeSetter={themeSetter} />
+            {_Main}
           </Route>
           <Route exact path="/:langExt/:id">
-            <Main themeKey={themeKey} themeSetter={themeSetter} />
+            {_Main}
           </Route>
         </Switch>
       </Router>

@@ -67,19 +67,14 @@ const InlineCode = styled.pre`
 const Close = styled.button``;
 
 class Welcome extends React.Component {
-  state = {
-    rotation: 0,
-    featureOpen: false,
-  };
-
   handleFeatures = (event) => {
     event.preventDefault();
-    const rotation = this.state.rotation === 0 ? 90 : 0;
-    const featureOpen = !this.state.featureOpen;
-    this.setState({ rotation: rotation, featureOpen: featureOpen });
+    this.props.setFeatureOpen(!this.props.featureOpen);
   };
 
   render() {
+    const rotation = this.props.featureOpen ? 90 : 0;
+
     return (
       <Div>
         <HeadingDiv>
@@ -95,13 +90,13 @@ class Welcome extends React.Component {
           <FontAwesomeIcon
             icon="caret-right"
             style={{ fontSize: "14pt", transition: "all 0.1s linear" }}
-            rotation={this.state.rotation}
+            rotation={rotation}
           />
           <FeaturesButton href="#" onClick={this.handleFeatures}>
             Explore more
           </FeaturesButton>
         </FeaturesDiv>
-        <Collapse isOpened={this.state.featureOpen}>
+        <Collapse isOpened={this.props.featureOpen}>
           <div>
             <ol style={{ margin: 0, fontSize: "11pt" }}>
               <li>

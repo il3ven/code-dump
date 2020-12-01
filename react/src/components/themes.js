@@ -49,11 +49,11 @@ const themes = {
     background: "#363537",
     thumbBG: "rgba(0, 0, 0, 0.28)",
     scrollBarBG: "rgba(0, 0, 0, 0)",
-    inlineCode: "#22119917",
+    inlineCode: "#99111117",
     codeMirrorBorder: "#cccccc63",
     welcome: {
       bg: "#a3a3a347",
-      heading: "#219",
+      heading: "#df2323",
     },
   },
 };

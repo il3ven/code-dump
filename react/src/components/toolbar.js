@@ -9,6 +9,7 @@ const StyledToolbar = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
+  align-content: flex-start;
   background-color: rgb(65, 59, 57);
   padding: 0 5px 0;
   position: -webkit-sticky;
@@ -54,6 +55,8 @@ class Toolbar extends React.Component {
         <ToolbarButton onClick={this.props.handleClipboard}>
           {this.decodeClipboardState(this.props.clipboardState)}
         </ToolbarButton>
+
+        <ToolbarButton onClick={this.props.handleTips}>Tips</ToolbarButton>
       </StyledToolbar>
     );
   }

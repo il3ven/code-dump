@@ -120,6 +120,7 @@ const Main = (props) => {
         handleLanguageSubmit={handleLanguageSubmit}
         clipboardState={clipboardState}
         handleClipboard={handleClipboard}
+        handleTips={props.handleTips}
       ></Toolbar>
       <Editor
         input={input}
