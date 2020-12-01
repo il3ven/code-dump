@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import {
+  generatePath,
+  useHistory,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 
 import Editor from "./components/editor";
 import Toolbar from "./components/toolbar";
@@ -22,14 +27,15 @@ const getLangFromExt = (langExt) =>
 const Main = (props) => {
   const [clipboardState, setClipboardState] = useClipboardState();
   const [input, setInput] = useState(
-    "Type/Paste something here then click Save...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    `Type/Paste something here then click Save...${"\n".repeat(15)}`
   );
   const [readOnly, setReadOnly] = useState(false);
+  const { langExt, id } = useParams();
+  const history = useHistory();
+  const match = useRouteMatch();
   const [currentLanguage, setCurrentLanguage] = useState(
     codeMirrorLanguages[0]
   );
-  const history = useHistory();
-  const { langExt, id } = useParams();
 
   const handleInputChange = (newInput) => {
     setInput(newInput);
@@ -40,9 +46,7 @@ const Main = (props) => {
       setReadOnly(!readOnly);
       if (!readOnly) {
         const ret = await postDump(input);
-        console.log(langExt, ret.id);
-        history.push(`/${langExt}/${ret.id}`);
-        console.log("history pushed");
+        history.push(`/${currentLanguage.ext[0]}/${ret.id}`);
       }
     }
   };
@@ -54,6 +58,11 @@ const Main = (props) => {
       );
     }
     setCurrentLanguage(selectedOption);
+    const path = generatePath(match.path, {
+      langExt: selectedOption.ext[0],
+      id: id,
+    });
+    history.replace(path);
   };
 
   const handleClipboard = async () => {
@@ -68,7 +77,6 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    console.log("UseEffect");
     const handleGetState = async () => {
       const res = await getDump(id);
       setInput(res.code);
@@ -91,7 +99,6 @@ const Main = (props) => {
     };
 
     const lang = getLangFromExt(langExt);
-    console.log(langExt, id);
     if (lang) {
       handleLanguageSubmit(lang);
     } else {
