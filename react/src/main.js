@@ -46,7 +46,7 @@ const Main = (props) => {
       setReadOnly(!readOnly);
       if (!readOnly) {
         const ret = await postDump(input);
-        history.push(`/${currentLanguage.ext[0]}/${ret.id}`);
+        history.push(`/${currentLanguage.ext[0]}/${ret.data.id}`);
       }
     }
   };
@@ -90,7 +90,7 @@ const Main = (props) => {
           const ret = await postDump(text);
           console.log(ret);
           setInput(text);
-          const newUrl = langExt ? `/${langExt}/${ret.id}` : `/txt/${ret.id}`;
+          const newUrl = langExt ? `/${langExt}/${ret.data.id}` : `/txt/${ret.data.id}`;
           history.push(newUrl);
         }
       } catch (err) {

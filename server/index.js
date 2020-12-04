@@ -33,7 +33,8 @@ app.post("/create", (req, res) => {
     .create(obj)
     .then((data) => {
       const shortid = Buffer.from(data._id.toString(), "hex");
-      res.send(shortid.toString("base64"));
+      const json = {id: shortid.toString("base64")};
+      res.json(json);
     })
     .catch((err) => {
       console.log("There is an error in creating document", err);
