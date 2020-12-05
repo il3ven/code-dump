@@ -3,7 +3,8 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
-const paste = require("./models/paste.js");
+const paste = require("../models/paste.js");
+const { default: base64url } = require("base64url");
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -14,19 +15,25 @@ mongoose.connect(process.env.mongourl, {
   useUnifiedTopology: true,
 });
 
+mongoose.connection.once("open", () => {
+  console.log("DB Connected");
+})
+
 app.get("/api", (req, res) => {
   console.log("Welcome to code dump");
   res.send("Welcome to code dump");
 });
 
 app.post("/api/create", (req, res) => {
-  const obj = { content: req.body.content };
+  const obj = { content: req.body.code };
   console.log("Content", obj);
   paste
     .create(obj)
     .then((data) => {
-      const shortid = Buffer.from(data._id.toString(), "hex");
-      const json = {id: shortid.toString("base64")};
+      const idBuffer = Buffer.from(data._id.toString(), "hex");
+      const idBase64 = idBuffer.toString("base64");
+      const idBase64url = base64url.fromBase64(idBase64);
+      const json = {id: idBase64url};
       res.json(json);
     })
     .catch((err) => {
@@ -36,12 +43,12 @@ app.post("/api/create", (req, res) => {
 });
 
 app.get("/api/read/:id", (req, res) => {
-  console.log("Read Request ID:", req.params.id);
-  const readid = Buffer.from(req.params.id, "base64").toString("hex");
+  const idBase64 = base64url.toBase64(req.params.id);
+  const readid = Buffer.from(idBase64, "base64").toString("hex");
   paste
     .findById(readid)
     .then((data) => {
-      console.log(data);
+      console.log("Content:", data.content);
       res.send(data);
     })
     .catch((err) => {

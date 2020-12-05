@@ -17,7 +17,7 @@ const postDump = (code, langKey) => {
   }
 */
 const getDump = (id) => {
-  return axios.get(`${BASE_URL}/${id}`);
+  return axios.get(`${BASE_URL}/read/${id}`);
 };
 
 // const ids = [
