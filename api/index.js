@@ -49,6 +49,7 @@ app.get("/api/read/:id", (req, res) => {
     .findById(readid)
     .then((data) => {
       console.log("Content:", data.content);
+      res.setHeader('Cache-Control', 'max-age=31,536,000, s-max-age=31,536,000, public');
       res.send(data);
     })
     .catch((err) => {
