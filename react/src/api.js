@@ -1,7 +1,7 @@
 import startInput from "./static/startInput";
 import axios from "axios";
 
-const BASE_URL = "";
+const BASE_URL = "/api";
 
 const postDump = (code, langKey) => {
   const data = { code: code };
