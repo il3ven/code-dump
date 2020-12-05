@@ -91,7 +91,7 @@ const Main = (props) => {
           console.log(ret);
           setInput(text);
           const newUrl = langExt ? `/${langExt}/${ret.data.id}` : `/txt/${ret.data.id}`;
-          history.push(newUrl);
+          history.replace(newUrl);
         }
       } catch (err) {
         setInput(err.toString());
@@ -110,7 +110,7 @@ const Main = (props) => {
     } else {
       handleSaveState();
     }
-  }, []);
+  }, [history, id]);
 
   const _readOnly = readOnly ? "nocursor" : false;
 

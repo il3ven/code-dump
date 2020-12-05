@@ -1,4 +1,4 @@
-import startInput from "./static/startInput";
+// import startInput from "./static/startInput";
 import axios from "axios";
 
 const BASE_URL = "/api";
