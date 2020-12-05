@@ -18,8 +18,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .CodeMirror {
-    height: calc(100vh - 20pt);
-    // height: auto;
+    // height: calc(100vh - 20pt);
+    height: auto;
     border-bottom: 1px solid ${({ theme }) => theme.codeMirrorBorder};
   }
   
