@@ -79,7 +79,7 @@ const Main = (props) => {
   useEffect(() => {
     const handleGetState = async () => {
       const res = await getDump(id);
-      setInput(res.code);
+      setInput(res.data.content);
     };
 
     const handleSaveState = async () => {

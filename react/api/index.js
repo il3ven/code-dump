@@ -21,12 +21,12 @@ mongoose.connect(process.env.mongourl, {
   useUnifiedTopology: true,
 });
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   console.log("Welcome to code dump");
   res.send("Welcome to code dump");
 });
 
-app.post("/create", (req, res) => {
+app.post("/api/create", (req, res) => {
   const obj = { content: req.body.content };
   console.log("Content", obj);
   paste
@@ -42,7 +42,7 @@ app.post("/create", (req, res) => {
     });
 });
 
-app.get("/read/:id", (req, res) => {
+app.get("/api/read/:id", (req, res) => {
   console.log("Read Request ID:", req.params.id);
   const readid = Buffer.from(req.params.id, "base64").toString("hex");
   paste
