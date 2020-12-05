@@ -2,31 +2,24 @@ require("dotenv").config({ path: `${__dirname}/process.env` });
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const cors = require("cors");
 const bodyparser = require("body-parser");
 const paste = require("./models/paste.js");
 
 app.use(express.static("public"));
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use(cors());
-app.options("*", cors());
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   next();
-// });
 
 mongoose.connect(process.env.mongourl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   console.log("Welcome to code dump");
   res.send("Welcome to code dump");
 });
 
-app.post("/create", (req, res) => {
+app.post("/api/create", (req, res) => {
   const obj = { content: req.body.content };
   console.log("Content", obj);
   paste
@@ -42,7 +35,7 @@ app.post("/create", (req, res) => {
     });
 });
 
-app.get("/read/:id", (req, res) => {
+app.get("/api/read/:id", (req, res) => {
   console.log("Read Request ID:", req.params.id);
   const readid = Buffer.from(req.params.id, "base64").toString("hex");
   paste
@@ -57,6 +50,4 @@ app.get("/read/:id", (req, res) => {
     });
 });
 
-app.listen(8080, () => {
-  console.log("App is listening");
-});
+module.exports = app
