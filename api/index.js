@@ -17,7 +17,7 @@ mongoose.connect(process.env.mongourl, {
 
 mongoose.connection.once("open", () => {
   console.log("DB Connected");
-})
+});
 
 app.get("/api", (req, res) => {
   console.log("Welcome to code dump");
@@ -26,20 +26,21 @@ app.get("/api", (req, res) => {
 
 app.post("/api/create", (req, res) => {
   const obj = { content: req.body.code };
-  console.log("Content", obj);
-  paste
-    .create(obj)
-    .then((data) => {
-      const idBuffer = Buffer.from(data._id.toString(), "hex");
-      const idBase64 = idBuffer.toString("base64");
-      const idBase64url = base64url.fromBase64(idBase64);
-      const json = {id: idBase64url};
-      res.json(json);
-    })
-    .catch((err) => {
-      console.log("There is an error in creating document", err);
-      res.send(err);
-    });
+  if (obj) {
+    paste
+      .create(obj)
+      .then((data) => {
+        const idBuffer = Buffer.from(data._id.toString(), "hex");
+        const idBase64 = idBuffer.toString("base64");
+        const idBase64url = base64url.fromBase64(idBase64);
+        const json = { id: idBase64url };
+        res.json(json);
+      })
+      .catch((err) => {
+        console.log("There is an error in creating document", err);
+        res.send(err);
+      });
+  }
 });
 
 app.get("/api/read/:id", (req, res) => {
@@ -49,7 +50,10 @@ app.get("/api/read/:id", (req, res) => {
     .findById(readid)
     .then((data) => {
       console.log("Content:", data.content);
-      res.setHeader('Cache-Control', 'max-age=31536000, s-max-age=31536000, public');
+      res.setHeader(
+        "Cache-Control",
+        "max-age=31536000, s-max-age=31536000, public"
+      );
       res.send(data);
     })
     .catch((err) => {
@@ -58,4 +62,4 @@ app.get("/api/read/:id", (req, res) => {
     });
 });
 
-module.exports = app
+module.exports = app;
