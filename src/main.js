@@ -8,6 +8,8 @@ import {
 
 import Editor from "./components/editor";
 import Toolbar from "./components/toolbar";
+import Popup from "./components/popup";
+import SavePopup from "./components/savePopup";
 
 import codeMirrorLanguages from "./static/langauges.json";
 import { codeMirrorThemes } from "./components/themes";
@@ -26,6 +28,7 @@ const getLangFromExt = (langExt) =>
 
 const Main = (props) => {
   const [clipboardState, setClipboardState] = useClipboardState();
+  const [isPopupShown, setIsPopupShown] = useState(true);
   const [input, setInput] = useState(
     `Type/Paste something here then click Save...${"\n".repeat(15)}`
   );
@@ -90,7 +93,9 @@ const Main = (props) => {
           const ret = await postDump(text);
           console.log(ret);
           setInput(text);
-          const newUrl = langExt ? `/${langExt}/${ret.data.id}` : `/txt/${ret.data.id}`;
+          const newUrl = langExt
+            ? `/${langExt}/${ret.data.id}`
+            : `/txt/${ret.data.id}`;
           history.replace(newUrl);
         }
       } catch (err) {
@@ -116,6 +121,15 @@ const Main = (props) => {
 
   return (
     <>
+      <Popup
+        isShown={isPopupShown}
+        onClose={() => {
+          console.log("Click");
+          setIsPopupShown(!isPopupShown);
+        }}
+      >
+        <SavePopup></SavePopup>
+      </Popup>
       <Toolbar
         handleChange={handleChange}
         text={{
