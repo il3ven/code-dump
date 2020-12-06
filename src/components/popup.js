@@ -10,7 +10,7 @@ const Container = styled.div`
   right: 50%;
   z-index: 10;
   transform: translate(50%);
-  // background-color: ${({ theme }) => theme.popup.bg};
+  background-color: ${({ theme }) => theme.popup.bg};
   animation: slidein 1s ease;
 
   @keyframes slidein {

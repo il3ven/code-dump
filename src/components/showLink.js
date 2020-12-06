@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Link = styled.div`
   margin: 0.5rem;
-  background-color: ${({ theme }) => theme.inlineCode};
+  // background-color: ${({ theme }) => theme.inlineCode};
   border: 2px solid ${({ theme }) => theme.popup.border};
   display: block;
   height: 25pt;
