@@ -10,11 +10,17 @@ import { themes } from "./components/themes";
 import { useDarkMode } from "./components/useDarkMode";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretRight,
+  faCopy,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { UnmountClosed } from "react-collapse";
 import Welcome from "./components/welcome";
 
 library.add(faCaretRight);
+library.add(faTimes);
+library.add(faCopy);
 
 const App = (props) => {
   const [themeKey, themeSetter] = useDarkMode();

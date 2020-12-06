@@ -38,8 +38,12 @@ const themes = {
     inlineCode: "#e6db741c",
     codeMirrorBorder: "#dcdcdc40",
     welcome: {
-      bg: "#a3a3a347",
+      bg: "#545355",
       heading: "#e6db74",
+    },
+    popup: {
+      bg: "#545355",
+      border: "#ffffff20",
     },
   },
 
@@ -52,8 +56,12 @@ const themes = {
     inlineCode: "#99111117",
     codeMirrorBorder: "#cccccc63",
     welcome: {
-      bg: "#a3a3a347",
+      bg: "#e5e5e5",
       heading: "#df2323",
+    },
+    popup: {
+      bg: "#e5e5e5",
+      border: "#36353715",
     },
   },
 };

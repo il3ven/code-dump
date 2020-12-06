@@ -4,15 +4,13 @@ import styled from "styled-components";
 const Container = styled.div`
   display: block;
   position: fixed;
-  // height: 3rem;
   width: 100%;
-  max-width: 50rem;
+  max-width: 30rem;
   bottom: 10%;
   right: 50%;
-  color: black;
   z-index: 10;
   transform: translate(50%);
-  background-color: white;
+  // background-color: ${({ theme }) => theme.popup.bg};
   animation: slidein 1s ease;
 
   @keyframes slidein {

@@ -9,7 +9,7 @@ import {
 import Editor from "./components/editor";
 import Toolbar from "./components/toolbar";
 import Popup from "./components/popup";
-import SavePopup from "./components/savePopup";
+import ShowLink from "./components/showLink";
 
 import codeMirrorLanguages from "./static/langauges.json";
 import { codeMirrorThemes } from "./components/themes";
@@ -125,10 +125,10 @@ const Main = (props) => {
         isShown={isPopupShown}
         onClose={() => {
           console.log("Click");
-          setIsPopupShown(!isPopupShown);
+          // setIsPopupShown(!isPopupShown);
         }}
       >
-        <SavePopup></SavePopup>
+        <ShowLink></ShowLink>
       </Popup>
       <Toolbar
         handleChange={handleChange}
