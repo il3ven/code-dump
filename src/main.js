@@ -28,7 +28,8 @@ const getLangFromExt = (langExt) =>
 
 const Main = (props) => {
   const [clipboardState, setClipboardState] = useClipboardState();
-  const [isPopupShown, setIsPopupShown] = useState(true);
+  const [isPopupShown, setIsPopupShown] = useState(false);
+  const [url, setUrl] = useState("");
   const [input, setInput] = useState(
     `Type/Paste something here then click Save...${"\n".repeat(15)}`
   );
@@ -49,7 +50,10 @@ const Main = (props) => {
       setReadOnly(!readOnly);
       if (!readOnly) {
         const ret = await postDump(input);
-        history.push(`/${currentLanguage.ext[0]}/${ret.data.id}`);
+        const _url = `/${currentLanguage.ext[0]}/${ret.data.id}`;
+        history.push(_url);
+        setUrl(window.location.href);
+        setIsPopupShown(true);
       }
     }
   };
@@ -66,6 +70,8 @@ const Main = (props) => {
       id: id,
     });
     history.replace(path);
+    setUrl(window.location.href);
+    setIsPopupShown(true);
   };
 
   const handleClipboard = async () => {
@@ -97,6 +103,8 @@ const Main = (props) => {
             ? `/${langExt}/${ret.data.id}`
             : `/txt/${ret.data.id}`;
           history.replace(newUrl);
+          setUrl(window.location.href);
+          setIsPopupShown(true);
         }
       } catch (err) {
         setInput(err.toString());
@@ -121,14 +129,13 @@ const Main = (props) => {
 
   return (
     <>
-      <Popup
-        isShown={isPopupShown}
-        onClose={() => {
-          console.log("Click");
-          // setIsPopupShown(!isPopupShown);
-        }}
-      >
-        <ShowLink></ShowLink>
+      <Popup isShown={isPopupShown}>
+        <ShowLink
+          onClose={() => {
+            setIsPopupShown(!isPopupShown);
+          }}
+          url={url}
+        ></ShowLink>
       </Popup>
       <Toolbar
         handleChange={handleChange}

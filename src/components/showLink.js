@@ -26,10 +26,18 @@ const Button = styled.button`
   }
 `;
 
+const handleCopy = async (data) => {
+  try {
+    await navigator.clipboard.writeText(data);
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+  }
+};
+
 const ShowLink = (props) => {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <Link>https://code-dump.vercel.app/txt/X05Bb3o2y8tX21</Link>
+      <Link>{props.url}</Link>
       <div
         style={{
           display: "flex",
@@ -37,10 +45,10 @@ const ShowLink = (props) => {
           alignItems: "center",
         }}
       >
-        <Button>
+        <Button onClick={handleCopy.bind(this, props.url)}>
           <FontAwesomeIcon icon="copy" />
         </Button>
-        <Button>
+        <Button onClick={props.onClose}>
           <FontAwesomeIcon icon="times" />
         </Button>
       </div>

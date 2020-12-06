@@ -30,9 +30,7 @@ class Popup extends React.Component {
     if (!this.props.isShown) {
       return <></>;
     }
-    return (
-      <Container onClick={this.props.onClose}>{this.props.children}</Container>
-    );
+    return <Container>{this.props.children}</Container>;
   }
 }
 
