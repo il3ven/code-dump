@@ -42,7 +42,6 @@ const themes = {
       heading: "#e6db74",
     },
     popup: {
-      bg: "#545355",
       border: "#ffffff20",
     },
   },
@@ -60,7 +59,6 @@ const themes = {
       heading: "#df2323",
     },
     popup: {
-      bg: "#e5e5e5",
       border: "#36353715",
     },
   },
