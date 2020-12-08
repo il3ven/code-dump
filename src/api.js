@@ -3,21 +3,31 @@ import axios from "axios";
 
 const BASE_URL = "/api";
 
+// Returns id
 const postDump = (code, langKey) => {
   const data = { code: code };
   if (langKey) data.langKey = langKey;
 
-  return axios.post(`${BASE_URL}/create`, data);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const ret = await axios.post(`${BASE_URL}/create`, data);
+      resolve(ret.data.id);
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
-/*
-  {
-    code: string
-    language: language_key
-  }
-*/
+// Returns code
 const getDump = (id) => {
-  return axios.get(`${BASE_URL}/read/${id}`);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const ret = await axios.get(`${BASE_URL}/read/${id}`);
+      resolve(ret.data.content);
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
 // const ids = [

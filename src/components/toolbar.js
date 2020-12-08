@@ -4,6 +4,7 @@ import ToolbarButton from "./toolbarButton";
 import ToolbarButtonWithModal from "./toolbarButtonWithModal";
 import { codeMirrorThemes } from "./themes";
 import codeMirrorLanguages from "../static/langauges.json";
+import { decodeClipboardState } from "../utils/utils";
 
 const StyledToolbar = styled.div`
   display: flex;
@@ -19,16 +20,6 @@ const StyledToolbar = styled.div`
 `;
 
 class Toolbar extends React.Component {
-  decodeClipboardState(state) {
-    if (this.props.clipboardState === "granted") {
-      return "Paste & Replace";
-    } else if (this.props.clipboardState === "prompt") {
-      return "Grant Clipboard Access";
-    } else {
-      return "Clipboard Blocked";
-    }
-  }
-
   render() {
     const text = this.props.text;
 
@@ -41,19 +32,22 @@ class Toolbar extends React.Component {
           {text.theme}
         </ToolbarButtonWithModal>
 
-        <ToolbarButton name="readOnly" onClick={this.props.handleChange}>
-          {this.props.readOnly ? "Edit" : "Save"}
+        <ToolbarButton
+          name="readOnly"
+          onClick={this.props.handleCodeMirrorState}
+        >
+          {text.save_edit}
         </ToolbarButton>
 
         <ToolbarButtonWithModal
-          onSubmit={this.props.handleLanguageSubmit}
+          onSubmit={this.props.handleLanguage}
           options={codeMirrorLanguages}
         >
           {text.language}
         </ToolbarButtonWithModal>
 
         <ToolbarButton onClick={this.props.handleClipboard}>
-          {this.decodeClipboardState(this.props.clipboardState)}
+          {decodeClipboardState(this.props.clipboardState)}
         </ToolbarButton>
 
         <ToolbarButton onClick={this.props.handleTips}>Tips</ToolbarButton>

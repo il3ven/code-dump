@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { checkClipPermission } from "../utils";
+import { checkClipPermission } from "../utils/utils";
 
 export const useClipboardState = () => {
   const [clipboardState, _setClipboardState] = useState("prompt");
