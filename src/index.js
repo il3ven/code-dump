@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCaretRight,
+  faCheck,
   faCopy,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
@@ -21,6 +22,7 @@ import Welcome from "./components/welcome";
 library.add(faCaretRight);
 library.add(faTimes);
 library.add(faCopy);
+library.add(faCheck);
 
 const App = (props) => {
   const [themeKey, themeSetter] = useDarkMode();

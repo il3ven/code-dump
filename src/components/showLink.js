@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,21 +20,28 @@ const Button = styled.button`
   outline: none;
   cursor: pointer;
   font-size: 17pt;
+  width: 1.8rem;
   color: ${({ theme }) => theme.text};
 
   &:hover {
   }
 `;
 
-const handleCopy = async (data) => {
-  try {
-    await navigator.clipboard.writeText(data);
-  } catch (err) {
-    console.error("Failed to copy: ", err);
-  }
-};
-
 const ShowLink = (props) => {
+  const [clipboard, setClipboard] = useState("copy");
+
+  const handleCopy = async (data) => {
+    try {
+      await navigator.clipboard.writeText(data);
+      setClipboard("check");
+      setTimeout(() => {
+        setClipboard("copy");
+      }, 3000);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Link>{props.url}</Link>
@@ -46,7 +53,7 @@ const ShowLink = (props) => {
         }}
       >
         <Button onClick={handleCopy.bind(this, props.url)}>
-          <FontAwesomeIcon icon="copy" />
+          <FontAwesomeIcon icon={clipboard} />
         </Button>
         <Button onClick={props.onClose}>
           <FontAwesomeIcon icon="times" />
