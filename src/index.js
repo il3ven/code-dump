@@ -7,7 +7,7 @@ import Main from "./main";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./components/globalStyles";
 import { themes } from "./components/themes";
-import { useDarkMode } from "./components/useDarkMode";
+import { useDarkMode } from "./hooks/useDarkMode";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -18,6 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { UnmountClosed } from "react-collapse";
 import Welcome from "./components/welcome";
+import { useWelcomePref } from "./hooks/useWelcomePref";
 
 library.add(faCaretRight);
 library.add(faTimes);
@@ -26,19 +27,19 @@ library.add(faCheck);
 
 const App = (props) => {
   const [themeKey, themeSetter] = useDarkMode();
-  const [firstVisit, setFirstVisit] = useState(true);
+  const [welcomePref, setWelcomePref] = useWelcomePref();
   const [featureOpen, setFeatureOpen] = useState(false);
 
   const handleTips = () => {
-    setFirstVisit(true);
+    setWelcomePref(true);
     setFeatureOpen(true);
   };
 
   const _Welcome = (
-    <UnmountClosed isOpened={firstVisit}>
+    <UnmountClosed isOpened={welcomePref}>
       <Welcome
         onClose={() => {
-          setFirstVisit(false);
+          setWelcomePref(false);
         }}
         featureOpen={featureOpen}
         setFeatureOpen={setFeatureOpen}

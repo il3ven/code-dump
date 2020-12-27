@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { codeMirrorThemes } from "./themes";
+import { codeMirrorThemes } from "../components/themes";
 
 export const useDarkMode = () => {
   const [theme, setTheme] = useState(
