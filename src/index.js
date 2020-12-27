@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 
@@ -57,11 +57,11 @@ const App = (props) => {
   return (
     <ThemeProvider theme={themes[themeKey]}>
       <GlobalStyles />
+      {_Welcome}
 
       <Router>
         <Switch>
           <Route exact path="/">
-            {_Welcome}
             {_Main}
           </Route>
           <Route exact path="/:langExt">
