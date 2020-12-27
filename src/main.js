@@ -87,7 +87,7 @@ class Main extends React.Component {
       const code = await getDump(id);
       this.setState({ input: code });
     } else {
-      if (status === "granted") {
+      if (status.state === "granted") {
         try {
           const text = await navigator.clipboard.readText();
           const newID = await postDump(text);
