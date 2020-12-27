@@ -88,6 +88,7 @@ class Main extends React.Component {
       this.setState({ input: code });
     } else {
       if (status.state === "granted") {
+        this.setState({ input: "Creating a link. Please wait..." });
         try {
           const text = await navigator.clipboard.readText();
           const newID = await postDump(text);
