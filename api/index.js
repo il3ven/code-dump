@@ -1,65 +1,98 @@
-require("dotenv").config({ path: `${__dirname}/process.env` });
+// require("dotenv").config({ path: `${__dirname}/process.env` }); // Handled by vercel
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const bodyparser = require("body-parser");
-const paste = require("../models/paste.js");
+const MongoClient = require("mongodb").MongoClient;
+const url = require("url");
+const ObjectId = require("mongodb").ObjectId;
 const { default: base64url } = require("base64url");
 
-app.use(express.static("public"));
 app.use(express.json());
-app.use(bodyparser.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.mongourl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+let cached = global.mongo;
 
-mongoose.connection.once("open", () => {
-  console.log("DB Connected");
-});
+if (!cached) {
+  cached = global.mongo = {};
+}
 
-app.get("/api", (req, res) => {
-  console.log("Welcome to code dump");
-  res.send("Welcome to code dump");
-});
+async function connectToDB(uri) {
+  if (cached.conn) {
+    return cached.conn;
+  }
 
-app.post("/api/create", (req, res) => {
-  const obj = { content: req.body.code };
-  if (obj) {
-    paste
-      .create(obj)
-      .then((data) => {
-        const idBuffer = Buffer.from(data._id.toString(), "hex");
-        const idBase64 = idBuffer.toString("base64");
-        const idBase64url = base64url.fromBase64(idBase64);
-        const json = { id: idBase64url };
-        res.json(json);
+  console.log("DB not cached; Connecting");
+
+  if (!cached.promise) {
+    const conn = {};
+
+    const opts = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    };
+
+    cached.promise = MongoClient.connect(uri, opts)
+      .then((client) => {
+        conn.client = client;
+
+        return client.db(url.parse(uri).pathname.substr(1));
       })
-      .catch((err) => {
-        console.log("There is an error in creating document", err);
-        res.send(err);
+      .then((db) => {
+        conn.db = db;
+
+        cached.conn = conn;
       });
+  }
+
+  await cached.promise;
+
+  return cached.conn;
+}
+
+app.post("/api/create", async (req, res) => {
+  try {
+    const { db } = await connectToDB(process.env.mongourl);
+
+    const pasteDocument = { content: req.body.code };
+    if (pasteDocument) {
+      const pastesCollection = await db.collection("pastes");
+
+      const result = await pastesCollection.insertOne(pasteDocument);
+
+      const idBuffer = Buffer.from(result.insertedId.toString(), "hex");
+      const idBase64 = idBuffer.toString("base64");
+      const idBase64url = base64url.fromBase64(idBase64);
+      const json = { id: idBase64url };
+
+      res.json(json);
+    }
+  } catch (err) {
+    console.log("There is an error in creating document", err);
+    res.status(500).send(err);
   }
 });
 
-app.get("/api/read/:id", (req, res) => {
-  const idBase64 = base64url.toBase64(req.params.id);
-  const readid = Buffer.from(idBase64, "base64").toString("hex");
-  paste
-    .findById(readid)
-    .then((data) => {
-      console.log("Content:", data.content);
+app.get("/api/read/:id", async (req, res) => {
+  try {
+    const { db } = await connectToDB(process.env.mongourl);
+
+    const idBase64 = base64url.toBase64(req.params.id);
+    const readid = Buffer.from(idBase64, "base64").toString("hex");
+
+    const pastesCollection = await db.collection("pastes");
+    const paste = await pastesCollection.findOne({
+      _id: ObjectId(readid),
+    });
+
+    if (paste.content) {
       res.setHeader(
         "Cache-Control",
         "max-age=31536000, s-max-age=31536000, public"
       );
-      res.send(data);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err);
-    });
+      res.send(paste);
+    }
+  } catch (err) {
+    console.error("Error in retrieving document", err);
+    res.status(500).send(err);
+  }
 });
 
 module.exports = app;

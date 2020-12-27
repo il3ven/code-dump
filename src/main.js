@@ -92,6 +92,7 @@ class Main extends React.Component {
         try {
           const text = await navigator.clipboard.readText();
           const newID = await postDump(text);
+          if (!newID) throw new Error("Error in Post Dump API");
           let newUrl;
           if (langExt) {
             newUrl = `/${langExt}/${newID}`;
