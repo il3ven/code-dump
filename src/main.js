@@ -21,7 +21,6 @@ class Main extends React.Component {
       codeMirrorState: new CodeMirrorState(),
       isPopupShown: false,
       currentLanguage: codeMirrorLanguages[0],
-      clipboardState: "prompt",
     };
   }
 
@@ -56,22 +55,8 @@ class Main extends React.Component {
     this.setState({ currentLanguage: selectedOption });
   };
 
-  tryToPaste = async () => {
-    try {
-      const text = await navigator.clipboard.readText();
-      if (text) this.setState({ input: text });
-    } catch (err) {
-      console.log("Clipboard", err);
-    }
-  };
-
   componentDidMount = async () => {
     const status = await checkClipPermission();
-    const _this = this;
-    status.onchange = function () {
-      _this.setState({ clipboardState: this.state });
-    };
-    this.setState({ clipboardState: status.state });
 
     const { langExt, id } = this.props.match.params;
 
@@ -133,10 +118,8 @@ class Main extends React.Component {
             language: state.currentLanguage.alias,
           }}
           themeSetter={props.themeSetter}
-          clipboardState={state.clipboardState}
           handleCodeMirrorState={this.handleCodeMirrorState}
           handleLanguage={this.handleLanguage}
-          handleClipboard={this.tryToPaste}
           handleTips={props.handleTips}
         />
 

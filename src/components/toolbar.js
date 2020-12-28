@@ -4,7 +4,6 @@ import ToolbarButton from "./toolbarButton";
 import ToolbarButtonWithModal from "./toolbarButtonWithModal";
 import { codeMirrorThemes } from "./themes";
 import codeMirrorLanguages from "../static/langauges.json";
-import { decodeClipboardState } from "../utils/utils";
 
 const StyledToolbar = styled.div`
   display: flex;
@@ -45,10 +44,6 @@ class Toolbar extends React.Component {
         >
           {text.language}
         </ToolbarButtonWithModal>
-
-        <ToolbarButton onClick={this.props.handleClipboard}>
-          {decodeClipboardState(this.props.clipboardState)}
-        </ToolbarButton>
 
         <ToolbarButton onClick={this.props.handleTips}>Tips</ToolbarButton>
       </StyledToolbar>
