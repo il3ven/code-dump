@@ -28,7 +28,14 @@ class Toolbar extends React.Component {
           onSubmit={this.props.themeSetter}
           options={codeMirrorThemes}
         >
-          {text.theme}
+          Theme: {text.theme}
+        </ToolbarButtonWithModal>
+
+        <ToolbarButtonWithModal
+          onSubmit={this.props.handleLanguage}
+          options={codeMirrorLanguages}
+        >
+          Lang: {text.language}
         </ToolbarButtonWithModal>
 
         <ToolbarButton
@@ -38,14 +45,7 @@ class Toolbar extends React.Component {
           {text.save_edit}
         </ToolbarButton>
 
-        <ToolbarButtonWithModal
-          onSubmit={this.props.handleLanguage}
-          options={codeMirrorLanguages}
-        >
-          {text.language}
-        </ToolbarButtonWithModal>
-
-        <ToolbarButton onClick={this.props.handleTips}>Tips</ToolbarButton>
+        <ToolbarButton onClick={this.props.handleTips}>Help</ToolbarButton>
       </StyledToolbar>
     );
   }
