@@ -69,8 +69,13 @@ class Main extends React.Component {
 
     if (id) {
       this.setState({ input: "Getting Your Code..." });
-      const code = await getDump(id);
-      this.setState({ input: code });
+      try {
+        const code = await getDump(id);
+        this.setState({ input: code });
+      } catch (err) {
+        console.error(err);
+        this.setState({ input: "Some error occured (•_•)" });
+      }
     } else {
       if (status.state === "granted") {
         this.setState({ input: "Creating a link. Please wait..." });
@@ -91,6 +96,7 @@ class Main extends React.Component {
           });
         } catch (err) {
           console.error(err);
+          this.setState({ input: "Some error occured (•_•)" });
         }
       }
     }
