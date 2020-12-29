@@ -163,7 +163,7 @@ class InputBar extends React.Component {
         <OptionsDiv>
           {this.state.filteredOptions.map((opt, index) => {
             const props = {
-              key: opt.ext[0],
+              key: opt.ext[0] || opt.key,
               value: index,
               onClick: (event) => {
                 this.props.handleSubmit(
