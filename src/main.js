@@ -36,12 +36,13 @@ class Main extends React.Component {
   };
 
   handleSaveDump = async () => {
-    const newID = await postDump(this.state.input);
-    this.props.history.push(`/${this.state.currentLanguage.ext[0]}/${newID}`);
+    const { id } = await postDump(this.state.input);
+    this.props.history.push(`/${this.state.currentLanguage.ext[0]}/${id}`);
     this.setState({ isPopupShown: true });
   };
 
   handleLanguage = async (selectedOption) => {
+    if (!selectedOption) return;
     if (selectedOption.key !== "null") {
       await import(
         `codemirror/mode/${selectedOption.key}/${selectedOption.key}.js`
@@ -81,13 +82,23 @@ class Main extends React.Component {
         this.setState({ input: "Creating a link. Please wait..." });
         try {
           const text = await navigator.clipboard.readText();
-          const newID = await postDump(text);
-          if (!newID) throw new Error("Error in Post Dump API");
+          const { id, language, relevance } = await postDump(text);
+          if (!id) throw new Error("Error in Post Dump API");
           let newUrl;
           if (langExt) {
-            newUrl = `/${langExt}/${newID}`;
+            newUrl = `/${langExt}/${id}`;
           } else {
-            newUrl = `/txt/${newID}`;
+            if (relevance > 5) {
+              const langJSON = getLangFromExt(language);
+              console.log(langJSON);
+              await import(
+                `codemirror/mode/${langJSON.key}/${langJSON.key}.js`
+              );
+              this.setState({ currentLanguage: langJSON });
+              newUrl = `/${langJSON.ext[0]}/${id}`;
+            } else {
+              newUrl = `txt/${id}`;
+            }
           }
           this.props.history.replace(newUrl);
           this.setState({
@@ -136,7 +147,7 @@ class Main extends React.Component {
             fixedGutter: false,
             theme: props.themeKey,
             readOnly: state.codeMirrorState.get(),
-            mode: state.currentLanguage.key,
+            mode: state.currentLanguage.mode,
             viewportMargin: 500,
           }}
           onBeforeChange={(input) => {

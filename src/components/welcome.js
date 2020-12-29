@@ -142,7 +142,7 @@ class Welcome extends React.Component {
   };
 
   render() {
-    const rotation = this.props.featureOpen ? 90 : 0;
+    // const rotation = this.props.featureOpen ? 90 : 0;
 
     return (
       <Div>

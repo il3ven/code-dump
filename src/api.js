@@ -11,7 +11,7 @@ const postDump = (code, langKey) => {
   return new Promise(async (resolve, reject) => {
     try {
       const ret = await axios.post(`${BASE_URL}/create`, data);
-      resolve(ret.data.id);
+      resolve(ret.data);
     } catch (err) {
       reject(err);
     }
