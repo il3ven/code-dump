@@ -6,7 +6,7 @@ const url = require("url");
 const ObjectId = require("mongodb").ObjectId;
 const { default: base64url } = require("base64url");
 const hljs = require("highlight.js");
-const langs = require("../langsForAPI.json");
+const langs = require("../tools/langsForAPI.json");
 
 app.use(express.json());
 

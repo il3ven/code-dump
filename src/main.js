@@ -90,7 +90,6 @@ class Main extends React.Component {
           } else {
             if (relevance > 5) {
               const langJSON = getLangFromExt(language);
-              console.log(langJSON);
               await import(
                 `codemirror/mode/${langJSON.key}/${langJSON.key}.js`
               );
