@@ -5,6 +5,8 @@ const MongoClient = require("mongodb").MongoClient;
 const url = require("url");
 const ObjectId = require("mongodb").ObjectId;
 const { default: base64url } = require("base64url");
+const hljs = require("highlight.js");
+const langs = require("../langsForAPI.json");
 
 app.use(express.json());
 
@@ -53,6 +55,8 @@ app.post("/api/create", async (req, res) => {
 
     const pasteDocument = { content: req.body.code };
     if (pasteDocument) {
+      const { language, relevance } = hljs.highlightAuto(pasteDocument.content, langs);
+      console.log(language, relevance);
       const pastesCollection = await db.collection("pastes");
 
       const result = await pastesCollection.insertOne(pasteDocument);
@@ -60,7 +64,7 @@ app.post("/api/create", async (req, res) => {
       const idBuffer = Buffer.from(result.insertedId.toString(), "hex");
       const idBase64 = idBuffer.toString("base64");
       const idBase64url = base64url.fromBase64(idBase64);
-      const json = { id: idBase64url };
+      const json = { id: idBase64url, language: language, relevance: relevance };
 
       res.json(json);
     }
