@@ -13,6 +13,7 @@
     "base64url": "^3.0.1",
     "codemirror": "^5.58.2",
     "dotenv": "^8.2.0",
+    "highlight.js": "^10.5.0",
     "mongoose": "^5.11.4",
     "react": "^17.0.1",
     "react-codemirror2": "^7.2.1",
