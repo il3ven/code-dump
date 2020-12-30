@@ -181,11 +181,22 @@ class Welcome extends React.Component {
           )}
         </AccessDiv>
 
+        <CollapseInfo title="Why do we need access to your clipboard?">
+          <Text>
+            This helps us copy code from your clipboard and automatically create
+            a link each time you visit the home page.
+          </Text>
+        </CollapseInfo>
+
         <CollapseInfo title="Is there any risk if I grant access?">
           <Text>No, there is no risk.</Text>
           <Text>
             We can only read your last copied text when this website is open and
-            in focus. Don't believe us ? Check our source code.
+            in focus. Don't believe us ? Check our{" "}
+            <a href="https://github.com/il3ven/code-dump/" target="_blank" style={{ color: "inherit" }}>
+              source code
+            </a>
+            .
           </Text>
         </CollapseInfo>
 
@@ -197,13 +208,13 @@ class Welcome extends React.Component {
             <li>
               For example, if the generated URL is{" "}
               <InlineCode>
-                www.code-dump.vercel.app/py/X-nLd-rmKh30oRzI
+                code-dump.vercel.app/py/X-nLd-rmKh30oRzI
               </InlineCode>{" "}
               then to change the language from Python to JavaScript replace{" "}
               <InlineCode>py</InlineCode> with <InlineCode>js</InlineCode>. The
               new URL will be{" "}
               <InlineCode>
-                www.code-dump.vercel.app/js/X-nLd-rmKh30oRzI
+                code-dump.vercel.app/js/X-nLd-rmKh30oRzI
               </InlineCode>
             </li>
           </ol>
