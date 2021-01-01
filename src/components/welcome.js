@@ -154,51 +154,8 @@ class Welcome extends React.Component {
           </Button>
         </HeadingDiv>
         <AccessDiv>
-          {this.state.clipboardState !== "granted" && (
-            <>
-              <H2>To unlock true speed, we request your clipboard access.</H2>
-              <Text>Click the button below to grant access</Text>
-              <Text>
-                <Button
-                  onClick={this.tryToPaste}
-                  style={{ margin: "0.6rem 0 0" }}
-                >
-                  <FontAwesomeIcon
-                    icon="copy"
-                    style={{ margin: "0 0.3rem 0 0" }}
-                  />
-                  {decodeClipboardState(this.state.clipboardState)}
-                </Button>
-              </Text>
-            </>
-          )}
-
-          {this.state.clipboardState === "granted" && (
-            <H2>
-              Copy some code and (re)visit this website. We'll create a link for
-              you.
-            </H2>
-          )}
+          Press <InlineCode>Ctrl/Cmd + V</InlineCode> or paste something below.
         </AccessDiv>
-
-        <CollapseInfo title="Why do we need access to your clipboard?">
-          <Text>
-            This helps us copy code from your clipboard and automatically create
-            a link each time you visit the home page.
-          </Text>
-        </CollapseInfo>
-
-        <CollapseInfo title="Is there any risk if I grant access?">
-          <Text>No, there is no risk.</Text>
-          <Text>
-            We can only read your last copied text when this website is open and
-            in focus. Don't believe us ? Check our{" "}
-            <a href="https://github.com/il3ven/code-dump/" target="_blank" style={{ color: "inherit" }}>
-              source code
-            </a>
-            .
-          </Text>
-        </CollapseInfo>
 
         <CollapseInfo title="What if the detected language is wrong?">
           <ol style={{ margin: "0 -0.72rem 0", fontSize: "11pt" }}>
@@ -207,15 +164,11 @@ class Welcome extends React.Component {
             </li>
             <li>
               For example, if the generated URL is{" "}
-              <InlineCode>
-                code-dump.vercel.app/py/X-nLd-rmKh30oRzI
-              </InlineCode>{" "}
+              <InlineCode>code-dump.vercel.app/py/X-nLd-rmKh30oRzI</InlineCode>{" "}
               then to change the language from Python to JavaScript replace{" "}
               <InlineCode>py</InlineCode> with <InlineCode>js</InlineCode>. The
               new URL will be{" "}
-              <InlineCode>
-                code-dump.vercel.app/js/X-nLd-rmKh30oRzI
-              </InlineCode>
+              <InlineCode>code-dump.vercel.app/js/X-nLd-rmKh30oRzI</InlineCode>
             </li>
           </ol>
         </CollapseInfo>

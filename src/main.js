@@ -41,6 +41,45 @@ class Main extends React.Component {
     this.setState({ isPopupShown: true });
   };
 
+  handlePaste = async (e) => {
+    const { langExt, id } = this.props.match.params;
+
+    let clipboardData, pastedData;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setState({ input: "Creating a link. Please wait..." });
+    clipboardData = e.clipboardData || window.clipboardData;
+    pastedData = clipboardData.getData("Text");
+
+    try {
+      const { id, language, relevance } = await postDump(pastedData);
+      if (!id) throw new Error("Error in Post Dump API");
+      let newUrl;
+      if (langExt) {
+        newUrl = `/${langExt}/${id}`;
+      } else {
+        if (relevance > 5) {
+          const langJSON = getLangFromExt(language);
+          await import(`codemirror/mode/${langJSON.key}/${langJSON.key}.js`);
+          this.setState({ currentLanguage: langJSON });
+          newUrl = `/${langJSON.ext[0]}/${id}`;
+        } else {
+          newUrl = `txt/${id}`;
+        }
+      }
+      this.props.history.replace(newUrl);
+      this.setState({
+        input: pastedData,
+        isPopupShown: true,
+      });
+    } catch (err) {
+      console.error(err);
+      this.setState({ input: "Some error occured (•_•)" });
+    }
+  };
+
   handleLanguage = async (selectedOption) => {
     if (!selectedOption) return;
     if (selectedOption.key !== "null") {
@@ -57,8 +96,6 @@ class Main extends React.Component {
   };
 
   componentDidMount = async () => {
-    const status = await checkClipPermission();
-
     const { langExt, id } = this.props.match.params;
 
     const lang = getLangFromExt(langExt);
@@ -77,40 +114,14 @@ class Main extends React.Component {
         console.error(err);
         this.setState({ input: "Some error occured (•_•)" });
       }
-    } else {
-      if (status.state === "granted") {
-        this.setState({ input: "Creating a link. Please wait..." });
-        try {
-          const text = await navigator.clipboard.readText();
-          const { id, language, relevance } = await postDump(text);
-          if (!id) throw new Error("Error in Post Dump API");
-          let newUrl;
-          if (langExt) {
-            newUrl = `/${langExt}/${id}`;
-          } else {
-            if (relevance > 5) {
-              const langJSON = getLangFromExt(language);
-              await import(
-                `codemirror/mode/${langJSON.key}/${langJSON.key}.js`
-              );
-              this.setState({ currentLanguage: langJSON });
-              newUrl = `/${langJSON.ext[0]}/${id}`;
-            } else {
-              newUrl = `txt/${id}`;
-            }
-          }
-          this.props.history.replace(newUrl);
-          this.setState({
-            input: text,
-            isPopupShown: true,
-          });
-        } catch (err) {
-          console.error(err);
-          this.setState({ input: "Some error occured (•_•)" });
-        }
-      }
     }
+
+    document.addEventListener("paste", this.handlePaste);
   };
+
+  componentWillUnmount() {
+    document.removeEventListener("paste", this.handlePaste);
+  }
 
   render() {
     const state = this.state;
