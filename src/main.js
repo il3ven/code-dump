@@ -10,14 +10,17 @@ import Popup from "./components/popup";
 import ShowLink from "./components/showLink";
 
 import codeMirrorLanguages from "./static/langauges.json";
-import { checkClipPermission, getTheme, getLangFromExt } from "./utils/utils";
+import { getTheme, getLangFromExt } from "./utils/utils";
 import { postDump, getDump } from "./api";
+
+// prettier-ignore
+const START_INPUT = `Press Ctrl/Cmd + V or Paste something here...${"\n".repeat(15)}`;
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: `Type/Paste something here then click Save...${"\n".repeat(15)}`,
+      input: START_INPUT,
       codeMirrorState: new CodeMirrorState(),
       isPopupShown: false,
       currentLanguage: codeMirrorLanguages[0],
@@ -44,18 +47,29 @@ class Main extends React.Component {
   handlePaste = async (e) => {
     const { langExt, id } = this.props.match.params;
 
+    if (id) return;
+
     let clipboardData, pastedData;
 
     e.preventDefault();
     e.stopPropagation();
 
-    this.setState({ input: "Creating a link. Please wait..." });
+    if (langExt) {
+      this.setState({ input: "Creating a link. Please wait..." });
+    } else {
+      this.setState({
+        input: "Creating a link. Please wait...",
+        currentLanguage: codeMirrorLanguages[0],
+      });
+    }
+
     clipboardData = e.clipboardData || window.clipboardData;
     pastedData = clipboardData.getData("Text");
 
     try {
       const { id, language, relevance } = await postDump(pastedData);
       if (!id) throw new Error("Error in Post Dump API");
+
       let newUrl;
       if (langExt) {
         newUrl = `/${langExt}/${id}`;
@@ -69,11 +83,9 @@ class Main extends React.Component {
           newUrl = `txt/${id}`;
         }
       }
+
       this.props.history.replace(newUrl);
-      this.setState({
-        input: pastedData,
-        isPopupShown: true,
-      });
+      this.setState({ input: pastedData, isPopupShown: true });
     } catch (err) {
       console.error(err);
       this.setState({ input: "Some error occured (•_•)" });
@@ -162,6 +174,17 @@ class Main extends React.Component {
           }}
           onBeforeChange={(input) => {
             this.setState({ input: input });
+          }}
+          onFocus={(editor, event) => {
+            if (this.state.input === START_INPUT) {
+              this.setState({ input: `${"\n".repeat(15)}` });
+              editor.setCursor(0, 0);
+            }
+          }}
+          onBlur={(editor) => {
+            if (this.state.input === `${"\n".repeat(15)}`) {
+              this.setState({ input: START_INPUT });
+            }
           }}
         />
       </>
