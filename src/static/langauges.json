@@ -1,6 +1,6 @@
 [
   { "key": "null", "alias": "Plain Text", "ext": ["txt", "plaintext", "text"] },
-  { "key": "javascript", "alias": "Javascript", "ext": ["js", "javascript", "jsx"], "mode": "text/javascript" },
+  { "key": "javascript", "alias": "Javascript", "ext": ["js", "javascript"], "mode": "text/javascript" },
   { "key": "clike", "alias": "C/C++", "ext": ["cpp", "c", "hpp", "cc", "hh", "c++", "h++", "cxx", "hxx", "h"], "mode": "text/x-c++src" },
   { "key": "python", "alias": "Python", "ext": ["py", "python", "gyp"], "mode": "text/x-python" },
   { "key": "go", "alias": "Go", "ext": ["go", "golang"], "mode": "text/x-go" },
