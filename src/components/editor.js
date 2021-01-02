@@ -14,6 +14,8 @@ class Editor extends React.Component {
           onBeforeChange={(editor, data, value) => {
             this.props.onBeforeChange(value);
           }}
+          onFocus={this.props.onFocus}
+          onBlur={this.props.onBlur}
         />
       </div>
     );
