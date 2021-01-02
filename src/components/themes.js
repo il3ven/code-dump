@@ -30,7 +30,7 @@ const codeMirrorThemes = [
 
 const themes = {
   monokai: {
-    body: "#363537",
+    body: "#272822",
     text: "#FAFAFA",
     background: "#999",
     thumbBG: "#ffffff66",
