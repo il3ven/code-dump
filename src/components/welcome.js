@@ -153,9 +153,6 @@ class Welcome extends React.Component {
             Close
           </Button>
         </HeadingDiv>
-        <AccessDiv>
-          Press <InlineCode>Ctrl/Cmd + V</InlineCode> or paste something below.
-        </AccessDiv>
 
         <CollapseInfo title="What if the detected language is wrong?">
           <ol style={{ margin: "0 -0.72rem 0", fontSize: "11pt" }}>

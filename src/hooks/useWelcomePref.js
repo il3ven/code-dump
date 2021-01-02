@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export const useWelcomePref = () => {
   const [welcomePref, _setWelcomePref] = useState(
-    window.localStorage.getItem("welcomePref") !== "false"
+    window.localStorage.getItem("welcomePref") === "true"
   ); // true for open
 
   const setWelcomePref = (val) => {
@@ -12,7 +12,7 @@ export const useWelcomePref = () => {
 
   useEffect(() => {
     const localWelcomePref =
-      window.localStorage.getItem("welcomePref") !== "false";
+      window.localStorage.getItem("welcomePref") === "true";
     localWelcomePref && _setWelcomePref(localWelcomePref);
   }, []);
 
