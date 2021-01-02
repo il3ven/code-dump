@@ -39,9 +39,15 @@ class Main extends React.Component {
   };
 
   handleSaveDump = async () => {
-    const { id } = await postDump(this.state.input);
-    this.props.history.push(`/${this.state.currentLanguage.ext[0]}/${id}`);
-    this.setState({ isPopupShown: true });
+    try {
+      const { id } = await postDump(this.state.input);
+      this.props.history.push(`/${this.state.currentLanguage.ext[0]}/${id}`);
+      this.setState({ isPopupShown: true });
+      await navigator.clipboard.writeText(window.location.href);
+    } catch (err) {
+      console.error(err);
+      this.setState({ input: "Some error occured (•_•)" });
+    }
   };
 
   handlePaste = async (e) => {
@@ -86,6 +92,7 @@ class Main extends React.Component {
 
       this.props.history.replace(newUrl);
       this.setState({ input: pastedData, isPopupShown: true });
+      await navigator.clipboard.writeText(window.location.href);
     } catch (err) {
       console.error(err);
       this.setState({ input: "Some error occured (•_•)" });

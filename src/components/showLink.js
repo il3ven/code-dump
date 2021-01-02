@@ -6,11 +6,12 @@ const Link = styled.div`
   background-color: ${({ theme }) => theme.welcome.bg};
   border: 2px solid ${({ theme }) => theme.popup.border};
   display: block;
-  height: 25pt;
+  height: 21pt;
   overflow: auto;
   white-space: nowrap;
   padding: 0 0.3rem 0;
   flex: 1;
+  font-size: 11pt;
 `;
 
 const Button = styled.button`
@@ -19,7 +20,7 @@ const Button = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  font-size: 17pt;
+  font-size: 16pt;
   width: 1.8rem;
   color: ${({ theme }) => theme.text};
 
@@ -43,23 +44,27 @@ const ShowLink = (props) => {
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
-      <Link>{props.url}</Link>
-      <div
-        style={{
-          display: "flex",
-          flexFlow: "row wrap",
-          alignItems: "center",
-        }}
-      >
-        <Button onClick={handleCopy.bind(this, props.url)}>
-          <FontAwesomeIcon icon={clipboard} />
-        </Button>
-        <Button onClick={props.onClose}>
-          <FontAwesomeIcon icon="times" />
-        </Button>
+    <>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Link>{props.url}</Link>
+
+        <div
+          style={{
+            display: "flex",
+            flexFlow: "row wrap",
+            alignItems: "center",
+          }}
+        >
+          <Button onClick={handleCopy.bind(this, props.url)}>
+            <FontAwesomeIcon icon={clipboard} />
+          </Button>
+          <Button onClick={props.onClose}>
+            <FontAwesomeIcon icon="times" />
+          </Button>
+        </div>
       </div>
-    </div>
+      <Link>{"Link created and copied. Share it with others."}</Link>
+    </>
   );
 };
 
