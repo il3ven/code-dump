@@ -14,6 +14,7 @@
   { "key": "diff", "alias": "Diff", "ext": ["diff", "patch"], "mode": "text/x-diff" },
   { "key": "htmlmixed", "alias": "HTML/XML", "ext": ["xml", "html", "xhtml", "rss", "atom", "xjb", "xsd", "xsl", "plist", "svg"], "mode": "text/html" },
   { "key": "javascript", "alias": "JSON", "ext": ["json"], "mode": "application/json" },
+  { "key": "jsx", "alias": "JSX", "ext": ["jsx"], "mode": "text/typescript-jsx" },
   { "key": "clike", "alias": "Java", "ext": ["java", "jsp"], "mode": "text/x-java" },
   { "key": "clike", "alias": "Kotlin", "ext": ["kotlin", "kt"], "mode": "text/x-java" },
   { "key": "css", "alias": "Less", "ext": ["less"], "mode": "text/x-less" },
