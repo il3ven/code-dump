@@ -5,6 +5,10 @@ const BASE_URL = "/api";
 
 // Returns id
 const postDump = (code, langKey) => {
+  if (code.length == 0) {
+    throw new Error("Cannot create blank paste");
+  }
+
   const data = { code: code };
   if (langKey) data.langKey = langKey;
 
