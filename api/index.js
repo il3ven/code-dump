@@ -55,7 +55,10 @@ app.post("/api/create", async (req, res) => {
 
     const pasteDocument = { content: req.body.code };
     if (pasteDocument) {
-      const { language, relevance } = hljs.highlightAuto(pasteDocument.content, langs);
+      const { language, relevance } = hljs.highlightAuto(
+        pasteDocument.content,
+        langs
+      );
       console.log(language, relevance);
       const pastesCollection = await db.collection("pastes");
 
@@ -64,7 +67,11 @@ app.post("/api/create", async (req, res) => {
       const idBuffer = Buffer.from(result.insertedId.toString(), "hex");
       const idBase64 = idBuffer.toString("base64");
       const idBase64url = base64url.fromBase64(idBase64);
-      const json = { id: idBase64url, language: language, relevance: relevance };
+      const json = {
+        id: idBase64url,
+        language: language,
+        relevance: relevance,
+      };
 
       res.json(json);
     }
