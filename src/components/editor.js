@@ -3,6 +3,7 @@ import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/monokai.css";
 import "codemirror/theme/eclipse.css";
+import "codemirror/mode/markdown/markdown.js"; // Add this only if the default lang is markdown
 
 class Editor extends React.Component {
   render() {
