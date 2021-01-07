@@ -86,7 +86,7 @@ class Main extends React.Component {
           this.setState({ currentLanguage: langJSON });
           newUrl = `/${langJSON.ext[0]}/${id}`;
         } else {
-          newUrl = `txt/${id}`;
+          newUrl = `${codeMirrorLanguages[0].ext}/${id}`;
         }
       }
 
