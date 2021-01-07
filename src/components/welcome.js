@@ -156,18 +156,41 @@ class Welcome extends React.Component {
 
         <CollapseInfo title="What if the detected language is wrong?">
           <ol style={{ margin: "0 -0.72rem 0", fontSize: "11pt" }}>
+            <li>Use the language picker to change the language manually.</li>
             <li>
-              In such a case just change the language from the generated URL.
-            </li>
-            <li>
-              For example, if the generated URL is{" "}
-              <InlineCode>code-dump.vercel.app/py/X-nLd-rmKh30oRzI</InlineCode>{" "}
-              then to change the language from Python to JavaScript replace{" "}
-              <InlineCode>py</InlineCode> with <InlineCode>js</InlineCode>. The
-              new URL will be{" "}
-              <InlineCode>code-dump.vercel.app/js/X-nLd-rmKh30oRzI</InlineCode>
+              The previous link will get modified. You can then share this new
+              link with others.
             </li>
           </ol>
+        </CollapseInfo>
+
+        <CollapseInfo title="Turn off language detection">
+          <ol style={{ margin: "0 -0.72rem 0", fontSize: "11pt" }}>
+            <li>
+              Visit{" "}
+              <InlineCode>
+                {"https://code-dump.vercel.app/<extension>"}
+              </InlineCode>
+            </li>
+            <li>
+              For example, to create a link which for a JavaScript code you will
+              visit <InlineCode>{"https://code-dump.vercel.app/js"}</InlineCode>
+            </li>
+          </ol>
+        </CollapseInfo>
+
+        <CollapseInfo title="Other useful information">
+          <CollapseInfo title="For how long is the link valid?">
+            <Text>Any link generated does not have an expiry.</Text>
+          </CollapseInfo>
+          <Text>
+            <a
+              style={{ color: "inherit" }}
+              href="https://github.com/il3ven/code-dump/"
+            >
+              GitHub
+            </a>
+          </Text>
         </CollapseInfo>
 
         {/* <CollapseInfo title="Why do we need your clipboard acess?">
