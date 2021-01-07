@@ -1,14 +1,16 @@
-// require("dotenv").config({ path: `${__dirname}/process.env` }); // Handled by vercel
+require("dotenv").config(); // Handled by vercel
 const express = require("express");
-const app = express();
+const router = express.Router();
+
 const MongoClient = require("mongodb").MongoClient;
-const url = require("url");
 const ObjectId = require("mongodb").ObjectId;
+
+const url = require("url");
 const { default: base64url } = require("base64url");
 const hljs = require("highlight.js");
 const langs = require("../tools/langsForAPI.json");
 
-app.use(express.json());
+router.use(express.json());
 
 let cached = global.mongo;
 
@@ -49,7 +51,7 @@ async function connectToDB(uri) {
   return cached.conn;
 }
 
-app.post("/api/create", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const { db } = await connectToDB(process.env.mongourl);
 
@@ -81,7 +83,7 @@ app.post("/api/create", async (req, res) => {
   }
 });
 
-app.get("/api/read/:id", async (req, res) => {
+router.get("/read/:id", async (req, res) => {
   try {
     const { db } = await connectToDB(process.env.mongourl);
 
@@ -106,4 +108,4 @@ app.get("/api/read/:id", async (req, res) => {
   }
 });
 
-module.exports = app;
+module.exports = router;
