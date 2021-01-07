@@ -1,10 +1,10 @@
 [
+  { "key": "markdown", "alias": "Markdown", "ext": ["md", "markdown", "mkdown", "mkd"], "mode": "text/x-markdown" },
   { "key": "null", "alias": "Plain Text", "ext": ["txt", "plaintext", "text"] },
   { "key": "javascript", "alias": "Javascript", "ext": ["js", "javascript"], "mode": "text/javascript" },
   { "key": "clike", "alias": "C/C++", "ext": ["cpp", "c", "hpp", "cc", "hh", "c++", "h++", "cxx", "hxx", "h"], "mode": "text/x-c++src" },
   { "key": "python", "alias": "Python", "ext": ["py", "python", "gyp"], "mode": "text/x-python" },
   { "key": "go", "alias": "Go", "ext": ["go", "golang"], "mode": "text/x-go" },
-  { "key": "markdown", "alias": "Markdown", "ext": ["md", "markdown", "mkdown", "mkd"], "mode": "text/x-markdown" },
   { "key": "ruby", "alias": "Ruby", "ext": ["ruby", "rb", "gemspec", "podspec", "thor", "irb"], "mode": "text/x-ruby" },
   { "key": "rust", "alias": "Rust", "ext": ["rust", "rs"], "mode": "text/x-rustsrc" },
   { "key": "css", "alias": "CSS", "ext": ["css"], "mode": "text/css" },

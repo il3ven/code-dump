@@ -14,7 +14,7 @@ import { getTheme, getLangFromExt } from "./utils/utils";
 import { postDump, getDump } from "./api";
 
 // prettier-ignore
-const START_INPUT = `Press Ctrl/Cmd + V or Paste something here...${"\n".repeat(15)}`;
+const START_INPUT = `${'*'.repeat(44)}\n\n# Press Ctrl/CMD + V or Paste something here\n\n${'*'.repeat(44)}${'\n'.repeat(11)}`;
 
 class Main extends React.Component {
   constructor(props) {
