@@ -4,7 +4,36 @@ const path = require("path");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "build")));
+const setNoCache = (res) => {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() - 1);
+  res.setHeader("Expires", date.toUTCString());
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Cache-Control", "public, no-cache");
+};
+
+const setLongTermCache = (res) => {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() + 1);
+  res.setHeader("Expires", date.toUTCString());
+  res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+};
+
+app.use(
+  express.static(path.join(__dirname, "build"), {
+    extensions: ["html"],
+    setHeaders(res, path) {
+      if (path.match(/(\.html|\/sw\.js)$/)) {
+        setNoCache(res);
+        return;
+      }
+
+      if (path.match(/\.(js|css|png|jpg|jpeg|gif|ico|json)$/)) {
+        setLongTermCache(res);
+      }
+    },
+  })
+);
 
 app.use("/api", apiRouter);
 
