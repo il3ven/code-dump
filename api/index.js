@@ -1,6 +1,9 @@
 require("dotenv").config(); // Handled by vercel
 const express = require("express");
+
 const router = express.Router();
+
+const cron = require("node-cron");
 
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
@@ -10,7 +13,17 @@ const { default: base64url } = require("base64url");
 const hljs = require("highlight.js");
 const langs = require("../tools/langsForAPI.json");
 
+// let count = 0;
+
 router.use(express.json());
+
+router.use((req, res, next) => {
+  // console.log("Process env variable is ", process.env.totalcount);
+  let val = parseInt(process.env.totalcount);
+  process.env.totalcount = val + 1;
+  // console.log("env variable updated", process.env.totalcount);
+  next();
+});
 
 let cached = global.mongo;
 
@@ -105,6 +118,22 @@ router.get("/read/:id", async (req, res) => {
   } catch (err) {
     console.error("Error in retrieving document", err);
     res.status(500).send(err);
+  }
+});
+
+cron.schedule("1440 * * * * *", async () => {
+  console.log("scheduler is running");
+  // console.log("value of our new value count is", count);
+  console.log("Value of Total count is ", process.env.totalcount);
+  try {
+    const { db } = await connectToDB(process.env.mongourl);
+    const analytics = await db.collection("analytics");
+    const obj = { count: process.env.totalcount, createdAT: Date.now() };
+    const doc = await analytics.insertOne(obj);
+    // count = 0;
+    process.env.totalcount = 0;
+  } catch (err) {
+    console.log("Some Error Occured while scheduling the job");
   }
 });
 
