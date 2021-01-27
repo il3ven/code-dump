@@ -4,6 +4,11 @@ const path = require("path");
 
 const app = express();
 
+const { Stats } = require("express-simple-stats");
+const stats = Stats("codeDUMP_");
+app.use("/api/stats", stats.router);
+app.use(stats.middleware);
+
 const setNoCache = (res) => {
   const date = new Date();
   date.setFullYear(date.getFullYear() - 1);
