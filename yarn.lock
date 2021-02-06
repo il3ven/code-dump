@@ -4868,7 +4868,7 @@ expect@^26.6.0, expect@^26.6.2:
 
 "express-simple-stats@https://github.com/il3ven/express-simple-stats":
   version "1.1.0"
-  resolved "https://github.com/il3ven/express-simple-stats#7dae14f790ad6f750349dbb2bf19fb2f3ae2d9ad"
+  resolved "https://github.com/il3ven/express-simple-stats#ee4155b79d6717bd13300bc84621a1d165afc4cc"
   dependencies:
     express "^4.17.1"
     sqlite3 "^5.0.1"

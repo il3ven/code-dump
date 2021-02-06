@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const apiRouter = require("./api/index");
 const path = require("path");
@@ -5,7 +6,7 @@ const path = require("path");
 const app = express();
 
 const { Stats } = require("express-simple-stats");
-const stats = Stats("codeDUMP_");
+const stats = Stats(process.env.expressStatsPwd);
 app.use("/api/stats", stats.router);
 app.use(stats.middleware);
 

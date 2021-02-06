@@ -1,4 +1,3 @@
-require("dotenv").config(); // Handled by vercel
 const express = require("express");
 const router = express.Router();
 
