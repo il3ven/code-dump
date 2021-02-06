@@ -4866,9 +4866,9 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-"express-simple-stats@https://github.com/il3ven/express-simple-stats":
-  version "1.1.0"
-  resolved "https://github.com/il3ven/express-simple-stats#ee4155b79d6717bd13300bc84621a1d165afc4cc"
+"express-simple-stats@https://github.com/il3ven/express-simple-stats/":
+  version "1.1.1"
+  resolved "https://github.com/il3ven/express-simple-stats/#94f0a91189290c86424dd6c6100345c01c0c0536"
   dependencies:
     express "^4.17.1"
     sqlite3 "^5.0.1"
