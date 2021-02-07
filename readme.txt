@@ -1,3 +1,3 @@
-For demo visit: https://code-dump-git-linkonpaste.il3ven.vercel.app/
+For demo visit: https://codedump.xyz
 
 TODO: Add readme
