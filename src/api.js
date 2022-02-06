@@ -23,16 +23,16 @@ const postDump = (code, langKey) => {
 };
 
 // Returns code
-const getDump = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const ret = await axios.get(`${BASE_URL}/read/${id}`);
-      resolve(ret.data.content);
-    } catch (err) {
-      reject(err);
-    }
-  });
-};
+// const getDump = (id) => {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       const ret = await axios.get(`${BASE_URL}/read/${id}`);
+//       resolve(ret.data.content);
+//     } catch (err) {
+//       reject(err);
+//     }
+//   });
+// };
 
 // const ids = [
 //   "X57wdEw2jj3ZKmPa",
@@ -52,7 +52,7 @@ const getDump = (id) => {
 //       id: ids[getRandomInt(4)],
 //     };
 
-//     setTimeout(() => resolve(data), 500);
+//     setTimeout(() => resolve(data), 1000);
 //   });
 // };
 
@@ -60,11 +60,11 @@ const getDump = (id) => {
 //   console.log("Getting Dump");
 //   return new Promise((resolve, reject) => {
 //     const data = {
-//       code: startInput,
+//       code: '# My Code \n\n\n\n',
 //     };
 
-//     setTimeout(() => resolve(data), 500);
+//     setTimeout(() => resolve(data), 1000);
 //   });
 // };
 
-export { postDump, getDump };
+export { postDump };

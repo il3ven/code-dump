@@ -1,57 +1,74 @@
-import React from "react";
-import { generatePath, withRouter } from "react-router-dom";
-import CodeMirrorState, {
-  CODEMIRROR_STATE_SAVE,
-} from "./utils/codeMirrorState";
+import React, { useEffect, useState } from "react";
 
 import Editor from "./components/editor";
 import Toolbar from "./components/toolbar";
 import Popup from "./components/popup";
 import ShowLink from "./components/showLink";
 
+import useCodeMirrorState, {
+  codeMirrorStateToText,
+  CODEMIRROR_STATE_SAVE,
+} from "./hooks/useCodeMirrorState";
 import codeMirrorLanguages from "./static/langauges.json";
 import { getTheme, getLangFromExt } from "./utils/utils";
 import { postDump, getDump } from "./api";
 
+import { useRouter, withRouter } from "next/router";
+
 // prettier-ignore
 const START_INPUT = `${'*'.repeat(44)}\n\n# Press Ctrl/CMD + V or Paste something here\n\n${'*'.repeat(44)}${'\n'.repeat(11)}`;
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      input: START_INPUT,
-      codeMirrorState: new CodeMirrorState(),
-      isPopupShown: false,
-      currentLanguage: codeMirrorLanguages[0],
-    };
-  }
+function Main(props) {
+  const router = useRouter();
+  const [input, setInput] = useState(props.input || START_INPUT);
+  const [codeMirrorState, codeMirrorStateToggle] = useCodeMirrorState();
+  const [isPopupShown, setIsPopupShown] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState(
+    codeMirrorLanguages[0]
+  );
 
-  handleCodeMirrorState = () => {
-    const codeMirrorState = this.state.codeMirrorState;
-
-    if (codeMirrorState.get() === CODEMIRROR_STATE_SAVE) {
-      this.handleSaveDump();
+  const handleCodeMirrorState = () => {
+    if (codeMirrorState === CODEMIRROR_STATE_SAVE) {
+      handleSaveDump();
     }
 
-    codeMirrorState.toggle();
-    this.setState({ codeMirrorState: codeMirrorState });
+    codeMirrorStateToggle();
   };
 
-  handleSaveDump = async () => {
+  const handleSaveDump = async () => {
     try {
-      const { id } = await postDump(this.state.input);
-      this.props.history.push(`/${this.state.currentLanguage.ext[0]}/${id}`);
-      this.setState({ isPopupShown: true });
-      await navigator.clipboard.writeText(window.location.href);
+      const { id } = await postDump(input);
+      router.replace(`/${currentLanguage.ext[0]}/${id}`, undefined, { shallow: true });
+      setIsPopupShown(true);
+      //   await navigator.clipboard.writeText(window.location.href);
     } catch (err) {
       console.error(err);
-      this.setState({ input: "Some error occured (•_•)" });
+      setInput("Some error occured (•_•)");
     }
   };
 
-  handlePaste = async (e) => {
-    const { langExt, id } = this.props.match.params;
+  const handleLanguage = async (selectedOption) => {
+    if (!selectedOption) return;
+    if (selectedOption.key !== "null") {
+      await import(
+        `codemirror/mode/${selectedOption.key}/${selectedOption.key}.js`
+      );
+    }
+
+    if (router.pathname === "/[langExt]")
+      router.replace(`/${selectedOption.ext[0]}`, undefined, { shallow: true });
+    else if (router.pathname === "/[langExt]/[id]")
+      router.replace(
+        `/${selectedOption.ext[0]}/${router.query.id}`,
+        undefined,
+        { shallow: true }
+      );
+
+    setCurrentLanguage(selectedOption);
+  };
+
+  const handlePaste = async (e) => {
+    const { langExt, id } = router.query;
 
     if (id) return;
 
@@ -60,13 +77,10 @@ class Main extends React.Component {
     e.preventDefault();
     e.stopPropagation();
 
-    if (langExt) {
-      this.setState({ input: "Creating a link. Please wait..." });
-    } else {
-      this.setState({
-        input: "Creating a link. Please wait...",
-        currentLanguage: codeMirrorLanguages[0],
-      });
+    setInput("Creating a link. Please wait...");
+
+    if (!langExt) {
+      setCurrentLanguage(codeMirrorLanguages[0]);
     }
 
     clipboardData = e.clipboardData || window.clipboardData;
@@ -83,120 +97,106 @@ class Main extends React.Component {
         if (relevance > 5) {
           const langJSON = getLangFromExt(language);
           await import(`codemirror/mode/${langJSON.key}/${langJSON.key}.js`);
-          this.setState({ currentLanguage: langJSON });
+          setCurrentLanguage(langJSON);
           newUrl = `/${langJSON.ext[0]}/${id}`;
         } else {
           newUrl = `${codeMirrorLanguages[0].ext[0]}/${id}`;
         }
       }
 
-      this.props.history.replace(newUrl);
-      this.setState({ input: pastedData, isPopupShown: true });
-      await navigator.clipboard.writeText(window.location.href);
+      // this causes a redirect to a new page which calls getServerSideProps 
+      // and reinitializes the state of this component 
+      // router.replace(newUrl); 
+      window.history.pushState('readDump', '', newUrl);
+      setInput(pastedData);
+      setIsPopupShown(true);
+      //   await navigator.clipboard.writeText(window.location.href);
     } catch (err) {
       console.error(err);
       this.setState({ input: "Some error occured (•_•)" });
     }
   };
 
-  handleLanguage = async (selectedOption) => {
-    if (!selectedOption) return;
-    if (selectedOption.key !== "null") {
-      await import(
-        `codemirror/mode/${selectedOption.key}/${selectedOption.key}.js`
-      );
-    }
-    const path = generatePath(this.props.match.path, {
-      langExt: selectedOption.ext[0],
-      id: this.props.match.params.id,
-    });
-    this.props.history.replace(path);
-    this.setState({ currentLanguage: selectedOption });
-  };
+  useEffect(() => {
+    if (!router.isReady) return;
 
-  componentDidMount = async () => {
-    const { langExt, id } = this.props.match.params;
+    const { langExt, id } = router.query;
 
     const lang = getLangFromExt(langExt);
     if (lang) {
-      this.handleLanguage(lang);
+      handleLanguage(lang);
     } else {
-      this.setState({ currentLanguage: codeMirrorLanguages[0] });
+      setCurrentLanguage(codeMirrorLanguages[0]);
     }
 
-    if (id) {
-      this.setState({ input: "Getting Your Code..." });
-      try {
-        const code = await getDump(id);
-        this.setState({ input: code });
-      } catch (err) {
-        console.error(err);
-        this.setState({ input: "Some error occured (•_•)" });
-      }
-    }
+    document.addEventListener("paste", handlePaste);
 
-    document.addEventListener("paste", this.handlePaste);
-  };
+    return () => {
+      document.removeEventListener("paste", handlePaste);
+    };
+  }, [router.isReady]);
 
-  componentWillUnmount() {
-    document.removeEventListener("paste", this.handlePaste);
+  let url;
+
+  if (typeof window !== "undefined") {
+    url = window.location.href;
   }
 
-  render() {
-    const state = this.state;
-    const props = this.props;
-
-    return (
-      <>
-        <Popup isShown={state.isPopupShown}>
-          <ShowLink
-            onClose={() => {
-              this.setState({ isPopupShown: !state.isPopupShown });
-            }}
-            url={window.location.href}
-          ></ShowLink>
-        </Popup>
-
-        <Toolbar
-          text={{
-            save_edit: state.codeMirrorState.toText(),
-            theme: getTheme(props.themeKey).alias,
-            language: state.currentLanguage.alias,
+  return (
+    <>
+      <Popup isShown={isPopupShown}>
+        <ShowLink
+          onClose={() => {
+            setIsPopupShown(!isPopupShown);
           }}
-          themeSetter={props.themeSetter}
-          handleCodeMirrorState={this.handleCodeMirrorState}
-          handleLanguage={this.handleLanguage}
-          handleTips={props.handleTips}
-        />
+          url={url}
+        ></ShowLink>
+      </Popup>
 
+      <Toolbar
+        text={{
+          save_edit: codeMirrorStateToText(codeMirrorState),
+          theme: getTheme(props.themeKey).alias,
+          language: currentLanguage.alias,
+        }}
+        themeSetter={props.themeSetter}
+        handleCodeMirrorState={handleCodeMirrorState}
+        handleLanguage={handleLanguage}
+        handleTips={props.handleTips}
+      />
+
+      {typeof window !== "undefined" ? (
         <Editor
-          input={state.input}
+          input={input}
           options={{
             lineNumbers: true,
             fixedGutter: false,
             theme: props.themeKey,
-            readOnly: state.codeMirrorState.get(),
-            mode: state.currentLanguage.mode,
+            readOnly: codeMirrorState,
+            mode: currentLanguage.mode,
             viewportMargin: 500,
           }}
-          onBeforeChange={(input) => {
-            this.setState({ input: input });
-          }}
+          onBeforeChange={setInput}
           onFocus={(editor, event) => {
-            if (this.state.input === START_INPUT) {
-              this.setState({ input: `${"\n".repeat(15)}` });
-              editor.setCursor(0, 0);
-            }
+            setInput((input) =>
+              input === START_INPUT
+                ? (setInput(`${"\n".repeat(15)}`), editor.setCursor(0, 0))
+                : input
+            );
           }}
           onBlur={(editor) => {
-            if (this.state.input === `${"\n".repeat(15)}`) {
-              this.setState({ input: START_INPUT });
-            }
+            setInput((input) =>
+              input === `${"\n".repeat(15)}` ? START_INPUT : input
+            );
           }}
         />
-      </>
-    );
-  }
+      ) : (
+        <pre>
+          <code>{input}</code>
+        </pre>
+      )}
+    </>
+  );
 }
 
 export default withRouter(Main);
