@@ -1,9 +1,9 @@
 import React from "react";
+import "codemirror/lib/codemirror.css";
 import dynamic from "next/dynamic";
 
 const CodeMirror = dynamic(
   async () => {
-    await import("codemirror/lib/codemirror.css");
     await import("codemirror/theme/monokai.css");
     await import("codemirror/theme/eclipse.css");
     await import("codemirror/mode/markdown/markdown.js"); // Add this only if the default lang is markdown
