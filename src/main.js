@@ -38,7 +38,9 @@ function Main(props) {
   const handleSaveDump = async () => {
     try {
       const { id } = await postDump(input);
-      router.replace(`/${currentLanguage.ext[0]}/${id}`, undefined, { shallow: true });
+      router.replace(`/${currentLanguage.ext[0]}/${id}`, undefined, {
+        shallow: true,
+      });
       setIsPopupShown(true);
       //   await navigator.clipboard.writeText(window.location.href);
     } catch (err) {
@@ -55,21 +57,22 @@ function Main(props) {
       );
     }
 
-    if (router.pathname === "/[langExt]")
+    const query = router.query.params ?? [];
+    const [langExt, id] = query;
+
+    if (langExt && id)
+      router.replace(`/${selectedOption.ext[0]}/${id}`, undefined, {
+        shallow: true,
+      });
+    else if (langExt)
       router.replace(`/${selectedOption.ext[0]}`, undefined, { shallow: true });
-    else if (router.pathname === "/[langExt]/[id]")
-      router.replace(
-        `/${selectedOption.ext[0]}/${router.query.id}`,
-        undefined,
-        { shallow: true }
-      );
 
     setCurrentLanguage(selectedOption);
   };
 
   const handlePaste = async (e) => {
-    const { langExt, id } = router.query;
-    console.log('handlePaste called', langExt, id)
+    const query = router.query.params ?? [];
+    const [langExt, id] = query;
 
     if (id) return;
 
@@ -105,11 +108,7 @@ function Main(props) {
         }
       }
 
-      // this causes a redirect to a new page which calls getServerSideProps 
-      // and reinitializes the state of this component 
-      // router.replace(newUrl); 
-      // this does not cause a redirect, but router.query isn't updated
-      window.history.pushState('readDump', '', newUrl);
+      router.push(newUrl, undefined, { shallow: true });
       setInput(pastedData);
       setIsPopupShown(true);
       //   await navigator.clipboard.writeText(window.location.href);
@@ -121,8 +120,8 @@ function Main(props) {
 
   useEffect(() => {
     if (!router.isReady) return;
-
-    const { langExt, id } = router.query;
+    const query = router.query.params ?? [];
+    const [langExt, id] = query;
 
     const lang = getLangFromExt(langExt);
     if (lang) {
