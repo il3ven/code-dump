@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretRight, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Collapse } from "react-collapse";
 import { checkClipPermission, decodeClipboardState } from "../utils/utils";
 
@@ -98,7 +99,7 @@ function CollapseInfo(props) {
     <>
       <CollapseInfoDiv>
         <FontAwesomeIcon
-          icon="caret-right"
+          icon={faCaretRight}
           style={{ fontSize: "14pt", transition: "all 0.1s linear" }}
           rotation={rotation}
         />
@@ -149,7 +150,7 @@ class Welcome extends React.Component {
         <HeadingDiv>
           <H1>Welcome! Share code as fast as possible.</H1>
           <Button onClick={this.props.onClose}>
-            <FontAwesomeIcon icon="times" style={{ margin: "0 0.3rem 0 0" }} />
+            <FontAwesomeIcon icon={faTimes} style={{ margin: "0 0.3rem 0 0" }} />
             Close
           </Button>
         </HeadingDiv>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faCopy, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Link = styled.div`
   background-color: ${({ theme }) => theme.welcome.bg};
@@ -29,14 +30,14 @@ const Button = styled.button`
 `;
 
 const ShowLink = (props) => {
-  const [clipboard, setClipboard] = useState("copy");
+  const [showCopyIcon, setCopyIcon] = useState(true);
 
   const handleCopy = async (data) => {
     try {
       await navigator.clipboard.writeText(data);
-      setClipboard("check");
+      setCopyIcon(false);
       setTimeout(() => {
-        setClipboard("copy");
+        setCopyIcon(true);
       }, 3000);
     } catch (err) {
       console.error("Failed to copy: ", err);
@@ -56,10 +57,10 @@ const ShowLink = (props) => {
           }}
         >
           <Button onClick={handleCopy.bind(this, props.url)}>
-            <FontAwesomeIcon icon={clipboard} />
+            <FontAwesomeIcon icon={showCopyIcon ? faCopy : faCheck} />
           </Button>
           <Button onClick={props.onClose}>
-            <FontAwesomeIcon icon="times" />
+            <FontAwesomeIcon icon={faTimes} />
           </Button>
         </div>
       </div>

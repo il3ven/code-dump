@@ -1,9 +1,18 @@
 import React from "react";
-import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
-import "codemirror/theme/monokai.css";
-import "codemirror/theme/eclipse.css";
-import "codemirror/mode/markdown/markdown.js"; // Add this only if the default lang is markdown
+import dynamic from "next/dynamic";
+
+const CodeMirror = dynamic(
+  async () => {
+    await import("codemirror/theme/monokai.css");
+    await import("codemirror/theme/eclipse.css");
+    await import("codemirror/mode/markdown/markdown.js"); // Add this only if the default lang is markdown
+    return (await import("react-codemirror2")).Controlled;
+  },
+  {
+    ssr: false,
+  }
+);
 
 class Editor extends React.Component {
   render() {
