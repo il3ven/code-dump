@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Editor from "./components/editor";
 import Toolbar from "./components/toolbar";
@@ -70,13 +70,13 @@ function Main(props) {
     setCurrentLanguage(selectedOption);
   };
 
-  const handlePaste = async (e) => {
+  const _handlePaste = async (e) => {
     const query = router.query.params ?? [];
     const [langExt, id] = query;
-
-    if (id) return;
-
     let clipboardData, pastedData;
+    console.log('handlePaste', langExt, id)
+    
+    if (id) return;
 
     e.preventDefault();
     e.stopPropagation();
@@ -118,6 +118,10 @@ function Main(props) {
     }
   };
 
+  // due to closure, we get stale values for router.query.params
+  const handlePaste = useRef(_handlePaste);
+  handlePaste.current = _handlePaste;
+
   useEffect(() => {
     if (!router.isReady) return;
     const query = router.query.params ?? [];
@@ -130,10 +134,10 @@ function Main(props) {
       setCurrentLanguage(codeMirrorLanguages[0]);
     }
 
-    document.addEventListener("paste", handlePaste);
+    document.addEventListener("paste", (e) => handlePaste.current(e));
 
     return () => {
-      document.removeEventListener("paste", handlePaste);
+      document.removeEventListener("paste", (e) => handlePaste.current(e));
     };
   }, [router.isReady]);
 
