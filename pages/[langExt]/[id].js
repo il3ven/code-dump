@@ -4,9 +4,6 @@ import base64url from 'base64url'
 import { ObjectId } from "mongodb";
 
 import Main from "../../src/main";
-import codeMirrorLanguages from "../../src/static/langauges.json";
-import { getTheme, getLangFromExt } from "../../src/utils/utils";
-import { postDump, getDump } from "../../src/api";
 
 // prettier-ignore
 const START_INPUT = `${'*'.repeat(44)}\n\n# Press Ctrl/CMD + V or Paste something here\n\n${'*'.repeat(44)}${'\n'.repeat(11)}`;

@@ -10,7 +10,7 @@ import { Collapse } from "react-collapse";
 import Welcome from "../src/components/welcome";
 import { useWelcomePref } from "../src/hooks/useWelcomePref";
 
-// config.autoAddCss = false;
+config.autoAddCss = false;
 
 const App = ({ Component, pageProps, initialWelcomePref }) => {
   const [themeKey, themeSetter] = useDarkMode();

@@ -69,6 +69,7 @@ function Main(props) {
 
   const handlePaste = async (e) => {
     const { langExt, id } = router.query;
+    console.log('handlePaste called', langExt, id)
 
     if (id) return;
 
@@ -107,13 +108,14 @@ function Main(props) {
       // this causes a redirect to a new page which calls getServerSideProps 
       // and reinitializes the state of this component 
       // router.replace(newUrl); 
+      // this does not cause a redirect, but router.query isn't updated
       window.history.pushState('readDump', '', newUrl);
       setInput(pastedData);
       setIsPopupShown(true);
       //   await navigator.clipboard.writeText(window.location.href);
     } catch (err) {
       console.error(err);
-      this.setState({ input: "Some error occured (•_•)" });
+      setInput("Some error occured (•_•)");
     }
   };
 
@@ -199,4 +201,4 @@ function Main(props) {
   );
 }
 
-export default withRouter(Main);
+export default Main;
